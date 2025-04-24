@@ -40,10 +40,10 @@ MOTION_THRESHOLD_MG = 150
 # --- BMP280 설정 ---
 BMP280_ADDR = 0x76  # BMP280 기본 주소
 PRESSURE_AVG_SAMPLES = 3   # 기압 측정 시 평균낼 샘플 수
-ALTITUDE_CHANGE_THRESHOLD = 3.0 # 고도 변화 감지 임계값 (미터) - **민감한 반응, 작은 값 튜닝 필요**
+ALTITUDE_CHANGE_THRESHOLD = 1.0 # 고도 변화 감지 임계값 (미터) - **민감한 반응, 작은 값 튜닝 필요**
 PRESSURE_MONITOR_INTERVAL_MS = 1000 # 기압 모니터링 간격 (ms)
 # 기압 모니터링 타임아웃 (ms) - 이 시간 동안 임계 고도값 변화 없으면 IDLE로 복귀
-PRESSURE_MONITOR_TIMEOUT_MS = PRESSURE_MONITOR_INTERVAL_MS * 3
+PRESSURE_MONITOR_TIMEOUT_MS = PRESSURE_MONITOR_INTERVAL_MS * 5
 # 표준 해수면 기압 (Pa) - 고도 계산용 참조값
 SEA_LEVEL_PRESSURE_PA = 101325.0
 
