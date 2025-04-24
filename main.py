@@ -67,8 +67,8 @@ def main():
 
     # I2C 버스 초기화
     try:
-        i2c0 = machine.I2C(config.I2C0_BUS_ID, scl=machine.Pin(config.PIN_I2C0_SCL), sda=machine.Pin(config.PIN_I2C0_SDA), freq=config.I2C_FREQ)
-        i2c1 = machine.I2C(config.I2C1_BUS_ID, scl=machine.Pin(config.PIN_I2C1_SCL), sda=machine.Pin(config.PIN_I2C1_SDA), freq=config.I2C_FREQ)
+        i2c0 = machine.I2C(config.I2C0_BUS_ID, scl=machine.Pin(config.PIN_I2C0_SCL), sda=machine.Pin(config.PIN_I2C0_SDA), freq=config.I2C0_FREQ)
+        i2c1 = machine.SoftI2C(scl=machine.Pin(config.PIN_I2C1_SCL), sda=machine.Pin(config.PIN_I2C1_SDA), freq=config.I2C1_FREQ)   # I2C 설정 오류로 SoftI2C를 설정함. 이유 모름..
         log_event("I2C 버스 초기화 완료 (Bus 0, Bus 1)")
     except Exception as e:
         log_event(f"I2C 버스 초기화 실패: {e}"); current_state = config.STATE_ERROR; set_led_state(config.STATE_ERROR); return

@@ -5,8 +5,8 @@
 PIN_I2C0_SCL = 1
 PIN_I2C0_SDA = 0
 # BMP280 (I2C1) - Pico의 I2C1 기본 핀 또는 원하는 핀으로 설정
-PIN_I2C1_SCL = 3 # GP3
-PIN_I2C1_SDA = 2 # GP2
+PIN_I2C1_SCL = 7 # GP7
+PIN_I2C1_SDA = 6 # GP6
 # 기타
 PIN_LED = "LED"
 # PIN_RELAY = 10 # --- 릴레이 핀 정의 제거 ---
@@ -14,13 +14,14 @@ PIN_ADC_VSYS = 3 # GP29
 
 # --- I2C 설정 ---
 I2C0_BUS_ID = 0
-I2C1_BUS_ID = 1 # BMP280용 I2C 버스 ID
-I2C_FREQ = 400000
+I2C1_BUS_ID = 1 # BMP280용 I2C 버스 ID. SoftI2C설정함.
+I2C0_FREQ = 400000
+I2C1_FREQ = 100000
 
 # --- LSM6DS3 설정 ---
 LSM6DS3_ADDR = 0x6A
 REG_CTRL1_XL = 0x10
-# REG_CTRL2_G = 0x11    # 자이로 사용 시 필요
+REG_CTRL2_G = 0x11    # 자이로 사용 시 필요
 REG_STATUS = 0x1E
 REG_OUTX_L_XL = 0x28
 REG_OUTX_L_G = 0x22
@@ -42,7 +43,7 @@ PRESSURE_AVG_SAMPLES = 3   # 기압 측정 시 평균낼 샘플 수
 ALTITUDE_CHANGE_THRESHOLD = 3.0 # 고도 변화 감지 임계값 (미터) - **민감한 반응, 작은 값 튜닝 필요**
 PRESSURE_MONITOR_INTERVAL_MS = 1000 # 기압 모니터링 간격 (ms)
 # 기압 모니터링 타임아웃 (ms) - 이 시간 동안 임계 고도값 변화 없으면 IDLE로 복귀
-PRESSURE_MONITOR_TIMEOUT_MS = PRESSURE_MONITOR_INTERVAL_MS * 2.5
+PRESSURE_MONITOR_TIMEOUT_MS = PRESSURE_MONITOR_INTERVAL_MS * 3
 # 표준 해수면 기압 (Pa) - 고도 계산용 참조값
 SEA_LEVEL_PRESSURE_PA = 101325.0
 
