@@ -8,7 +8,6 @@ import audio_player
 
 # --- 전역 변수 ---
 led = machine.Pin(config.PIN_LED, machine.Pin.OUT)
-adc = machine.ADC(config.PIN_ADC_VSYS)
 i2c0 = None # LSM6DS3용
 i2c1 = None # BMP280용
 
@@ -16,16 +15,15 @@ current_state = config.STATE_INIT
 last_log_ticks = 0
 low_batt_warning_active = False
 
-# --- 유틸리티 함수 (log_event, init_led, set_led_state, check_voltage, check_low_battery) ---
+# --- 유틸리티 함수 (log_event, init_led, set_led_state) ---
 def log_event(event):
     global last_log_ticks
     try:
-        voltage = check_voltage()
         current_ticks = utime.ticks_us()
         if last_log_ticks == 0: relative_time_ms = 0
         else: relative_time_ms = utime.ticks_diff(current_ticks, last_log_ticks) // 1000
         last_log_ticks = current_ticks
-        log_entry = f"[{relative_time_ms}ms],[{voltage:.2f}V] | {event}\n"
+        log_entry = f"[{relative_time_ms}ms] | {event}\n"
         print(log_entry, end="")
         try:
             with open(config.LOG_FILE_NAME, "a") as file: file.write(log_entry)
@@ -40,21 +38,6 @@ def set_led_state(state):
     elif state == config.STATE_MONITORING_PRESSURE: led.on() # 모니터링 중 LED ON
     elif state == config.STATE_ACTION: led.on() # 재생 중 LED ON
     else: led.off()
-
-def check_voltage():
-    try:
-        adc_value = adc.read_u16(); return adc_value * config.ADC_REF_VOLTAGE / 65535 * config.VOLTAGE_DIVIDER_RATIO
-    except Exception: return 0.0
-
-def check_low_battery():
-    global low_batt_warning_active
-    voltage = check_voltage()
-    low_now = voltage > 0 and voltage < config.LOW_BATT_THRESHOLD
-    if low_now and not low_batt_warning_active:
-        log_event(f"저전력 경고: {voltage:.2f}V"); low_batt_warning_active = True; set_led_state(config.STATE_LOW_BATT)
-    elif not low_now and low_batt_warning_active:
-        log_event(f"저전력 상태 해제: {voltage:.2f}V"); low_batt_warning_active = False; set_led_state(current_state)
-    return low_now
 
 # --- 메인 실행 로직 ---
 def main():
@@ -71,16 +54,19 @@ def main():
         i2c1 = machine.SoftI2C(scl=machine.Pin(config.PIN_I2C1_SCL), sda=machine.Pin(config.PIN_I2C1_SDA), freq=config.I2C1_FREQ)   # I2C 설정 오류로 SoftI2C를 설정함. 이유 모름..
         log_event("I2C 버스 초기화 완료 (Bus 0, Bus 1)")
     except Exception as e:
-        log_event(f"I2C 버스 초기화 실패: {e}"); current_state = config.STATE_ERROR; set_led_state(config.STATE_ERROR); return
-
-    if check_low_battery(): log_event("초기 전압 낮음.")
+        log_event(f"I2C 버스 초기화 실패: {e}")
+        current_state = config.STATE_ERROR
+        set_led_state(config.STATE_ERROR)
+        return
 
     # 센서 초기화
     motion_ok = motion_sensor.init(i2c0, log_event)
     pressure_ok = pressure_sensor.init(i2c1, log_event)
 
     if not motion_ok or not pressure_ok:
-        log_event("센서 초기화 실패. 프로그램 중단."); current_state = config.STATE_ERROR; set_led_state(config.STATE_ERROR)
+        log_event("센서 초기화 실패. 프로그램 중단.")
+        current_state = config.STATE_ERROR
+        set_led_state(config.STATE_ERROR)
         while True: utime.sleep(1) # 오류 상태 유지
 
     log_event("모든 센서 초기화 완료. 메인 루프 시작.")
@@ -95,11 +81,6 @@ def main():
     while True:
         try:
             current_time_ms = utime.ticks_ms()
-
-            # 배터리 체크
-            if utime.ticks_diff(current_time_ms, last_batt_check_time) > 5000:
-                check_low_battery()
-                last_batt_check_time = current_time_ms
 
             # --- 상태별 처리 ---
             if current_state == config.STATE_IDLE:

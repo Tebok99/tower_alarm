@@ -10,12 +10,11 @@ PIN_I2C1_SDA = 6 # GP6
 # 기타
 PIN_LED = "LED"
 # PIN_RELAY = 10 # --- 릴레이 핀 정의 제거 ---
-PIN_ADC_VSYS = 3 # GP29
 
 # --- I2C 설정 ---
 I2C0_BUS_ID = 0
-I2C1_BUS_ID = 1 # BMP280용 I2C 버스 ID. SoftI2C설정함.
-I2C0_FREQ = 400000
+I2C1_BUS_ID = 1 # BMP280용 I2C 버스 ID. SoftI2C 설정함.
+I2C0_FREQ = 100000
 I2C1_FREQ = 100000
 
 # --- LSM6DS3 설정 ---
@@ -29,9 +28,9 @@ REG_OUTX_L_G = 0x22
 ACCEL_SENSITIVITY = 0.061   # mg/LSB
 # GYRO_SENSITIVITY = 4.375    # 자이로 사용 시 필요
 ACCEL_ODR_CONFIG = b'\x10' # 12.5 Hz, ±2g (ULP 모드)
-GYRO_ODR_CONFIG = b'\x00'  # 12.5 Hz, ±125 dps (b'\x12) (자이로 비활성화 시 b'\x00')
+GYRO_ODR_CONFIG = b'\x00'  # 12.5 Hz, ±125 dps (b'\x12) (자이로 비활성 시 b'\x00')
 # 필터 및 오프셋
-OFFSET_SAMPLE_COUNT = 50
+OFFSET_SAMPLE_COUNT = 20
 # GYRO_LPF_ALPHA = 0.2    # 자이로 사용 시 필요
 GRAVITY_FILTER_ALPHA = 0.1 # 중력 제거용 HPF(LPF 기반)
 # 가속도 감지 임계값 (동적 가속도 기준, mg) - **민감한 반응, 작은 값 튜닝 필요**

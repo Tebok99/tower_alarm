@@ -45,7 +45,7 @@ def init(i2c_bus, log_callback=None):
 def get_pressure_reading(num_samples=config.PRESSURE_AVG_SAMPLES):
     """Forced 모드로 전환, 설정된 오버샘플링/필터로 여러 번 측정 후 평균 압력 반환 (Pa), 끝나고 Sleep"""
     if not is_initialized or _bmp_sensor is None:
-        _log("BMP280이 초기화되지 않았습니다.")
+        _log("BMP280이 초기화 안 되었습니다.")
         return None
 
     readings = []

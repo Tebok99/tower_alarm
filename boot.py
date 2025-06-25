@@ -6,5 +6,5 @@ if not usb_cdc.data.connected:
     # USB 연결이 아니면 app.py 실행
     machine.main('app.py')
 else:
-    print("USB connected. Skipping app.py auto-run.")
+    print("USB connected. Don't run app.py.")
     # USB 연결 시 app.py 실행을 건너뜁니다.
