@@ -70,8 +70,7 @@ def get_pressure_reading(num_samples=config.PRESSURE_AVG_SAMPLES):
             utime.sleep_ms(wait_time)   # 계산된/설정된 대기 시간 사용
 
             # --- 온도 보상된 압력 값 읽기 (속성 접근) ---
-            pressure = _bmp_sensor.pressure # 속성 접근으로 수정
-            # ---------------------------------------
+            pressure = _bmp_sensor.pressure
 
             if pressure is not None:
                  readings.append(pressure)
