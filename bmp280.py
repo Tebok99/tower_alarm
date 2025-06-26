@@ -94,7 +94,7 @@ class BMP280:
         # soft reset
         self.reset()
 
-        # wait for device to be ready
+        # wait for a device to be ready
         while self.is_updating:
             time.sleep_ms(2)
 
@@ -145,10 +145,6 @@ class BMP280:
         self._p_raw = (d[0] << 12) + (d[1] << 4) + (d[2] >> 4)
         self._t_raw = (d[3] << 12) + (d[4] << 4) + (d[5] >> 4)
 
-        self._t_fine = 0
-        self._t = 0
-        self._p = 0
-
     def reset(self):
         self._write(_BMP280_REGISTER_RESET, 0xB6)
 
@@ -169,43 +165,40 @@ class BMP280:
     def _calc_t_fine(self):
         # From datasheet page 22
         self._gauge()
-        if self._t_fine == 0:
-            var1 = (((self._t_raw >> 3) - (self._T1 << 1)) * self._T2) >> 11
-            var2 = (((((self._t_raw >> 4) - self._T1)
-                      * ((self._t_raw >> 4)
-                         - self._T1)) >> 12)
-                    * self._T3) >> 14
-            self._t_fine = var1 + var2
+        var1 = (((self._t_raw >> 3) - (self._T1 << 1)) * self._T2) >> 11
+        var2 = (((((self._t_raw >> 4) - self._T1)
+                  * ((self._t_raw >> 4)
+                     - self._T1)) >> 12)
+                * self._T3) >> 14
+        self._t_fine = var1 + var2
 
     @property
     def temperature(self):
         self._calc_t_fine()
-        if self._t == 0:
-            self._t = ((self._t_fine * 5 + 128) >> 8) / 100.
+        self._t = ((self._t_fine * 5 + 128) >> 8) / 100.
         return self._t
 
     @property
     def pressure(self):
         # From datasheet page 22
         self._calc_t_fine()
-        if self._p == 0:
-            var1 = self._t_fine - 128000
-            var2 = var1 * var1 * self._P6
-            var2 = var2 + ((var1 * self._P5) << 17)
-            var2 = var2 + (self._P4 << 35)
-            var1 = ((var1 * var1 * self._P3) >> 8) + ((var1 * self._P2) << 12)
-            var1 = (((1 << 47) + var1) * self._P1) >> 33
+        var1 = self._t_fine - 128000
+        var2 = var1 * var1 * self._P6
+        var2 = var2 + ((var1 * self._P5) << 17)
+        var2 = var2 + (self._P4 << 35)
+        var1 = ((var1 * var1 * self._P3) >> 8) + ((var1 * self._P2) << 12)
+        var1 = (((1 << 47) + var1) * self._P1) >> 33
 
-            if var1 == 0:
-                return 0
+        if var1 == 0:
+            return 0
 
-            p = 1048576 - self._p_raw
-            p = int((((p << 31) - var2) * 3125) / var1)
-            var1 = (self._P9 * (p >> 13) * (p >> 13)) >> 25
-            var2 = (self._P8 * p) >> 19
+        p = 1048576 - self._p_raw
+        p = int((((p << 31) - var2) * 3125) / var1)
+        var1 = (self._P9 * (p >> 13) * (p >> 13)) >> 25
+        var2 = (self._P8 * p) >> 19
 
-            p = ((p + var1 + var2) >> 8) + (self._P7 << 4)
-            self._p = p / 256.0
+        p = ((p + var1 + var2) >> 8) + (self._P7 << 4)
+        self._p = p / 256.0
         return self._p
 
     def _write_bits(self, address, value, length, shift=0):

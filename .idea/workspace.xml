@@ -15,11 +15,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios.">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/________.xml" beforeDir="false" />
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bmp280.py" beforeDir="false" afterPath="$PROJECT_DIR$/bmp280.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pressure_sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pressure_sensor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750934272730</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures.">
+      <option name="closed" value="true" />
+      <created>1750968930830</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1750968930830</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,7 +193,8 @@
     <MESSAGE value="Add IntelliJ IDEA project configuration files to version control&#10;&#10;- `.idea/shelf/________.xml`: Stores unshelved changes metadata.&#10;- `.idea/codeStyles/codeStyleConfig.xml`: Sets default project code style.&#10;- `.idea/editor.xml`: Configures editor inspection settings." />
     <MESSAGE value="Refactor `boot.py` to improve USB power detection logic.&#10;&#10;- Added `is_usb_powered()` function utilizing the VBUS sense pin for USB power detection.&#10;- Differentiated behavior based on power source: USB vs. external battery.&#10;- Improved fallback logic for boards without VBUS pins." />
     <MESSAGE value="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios." />
+    <MESSAGE value="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
