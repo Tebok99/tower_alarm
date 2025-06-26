@@ -116,7 +116,6 @@ class BMP280:
         self._p = 0
 
         self.read_wait_ms = 0  # interval between forced measure and readout
-        self._new_read_ms = 200  # interval between
         self._last_read_ts = 0
 
         if use_case is not None:

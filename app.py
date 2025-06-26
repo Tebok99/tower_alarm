@@ -39,6 +39,63 @@ def set_led_state(state):
     elif state == config.STATE_ACTION: led.on() # 재생 중 LED ON
     else: led.off()
 
+def cleanup_and_exit(reason="프로그램 종료"):
+    """리소스 정리 및 프로그램 종료 처리"""
+    global i2c0, i2c1
+    log_event(f"{reason} - 종료 처리 시작")
+    
+    # I2C 버스 해제
+    if i2c0: 
+        try: 
+            i2c0.deinit()
+            log_event("I2C0 해제 완료")
+        except Exception as e: 
+            log_event(f"I2C0 해제 중 오류: {e}")
+    
+    if i2c1: 
+        try: 
+            i2c1.deinit()
+            log_event("I2C1 해제 완료")
+        except Exception as e: 
+            log_event(f"I2C1 해제 중 오류: {e}")
+    
+    # LED 끄기
+    led.off()
+    log_event("리소스 정리 완료. 프로그램 종료.")
+
+def init_sensors_with_retry():
+    """센서 초기화를 최대 3회까지 재시도"""
+    for attempt in range(1, config.SENSOR_INIT_MAX_RETRIES + 1):
+        log_event(f"센서 초기화 시도 {attempt}/{config.SENSOR_INIT_MAX_RETRIES}")
+        
+        # 모션 센서 초기화
+        motion_ok = motion_sensor.init(i2c0, log_event)
+        if motion_ok:
+            log_event("모션 센서 초기화 성공")
+        else:
+            log_event(f"모션 센서 초기화 실패 (시도 {attempt}/{config.SENSOR_INIT_MAX_RETRIES})")
+        
+        # 기압 센서 초기화
+        pressure_ok = pressure_sensor.init(i2c1, log_event)
+        if pressure_ok:
+            log_event("기압 센서 초기화 성공")
+        else:
+            log_event(f"기압 센서 초기화 실패 (시도 {attempt}/{config.SENSOR_INIT_MAX_RETRIES})")
+        
+        # 둘 다 성공하면 반환
+        if motion_ok and pressure_ok:
+            log_event(f"모든 센서 초기화 성공 (시도 {attempt}/{config.SENSOR_INIT_MAX_RETRIES})")
+            return True
+        
+        # 마지막 시도가 아니면 대기 후 재시도
+        if attempt < config.SENSOR_INIT_MAX_RETRIES:
+            log_event(f"센서 초기화 실패. {config.SENSOR_INIT_RETRY_DELAY_MS}ms 후 재시도...")
+            utime.sleep_ms(config.SENSOR_INIT_RETRY_DELAY_MS)
+        else:
+            log_event("모든 센서 초기화 시도 실패")
+    
+    return False
+
 # --- 메인 실행 로직 ---
 def main():
     global current_state, last_log_ticks, i2c0, i2c1
@@ -57,17 +114,16 @@ def main():
         log_event(f"I2C 버스 초기화 실패: {e}")
         current_state = config.STATE_ERROR
         set_led_state(config.STATE_ERROR)
+        cleanup_and_exit("I2C 버스 초기화 실패")
         return
 
-    # 센서 초기화
-    motion_ok = motion_sensor.init(i2c0, log_event)
-    pressure_ok = pressure_sensor.init(i2c1, log_event)
-
-    if not motion_ok or not pressure_ok:
-        log_event("센서 초기화 실패. 프로그램 중단.")
+    # 센서 초기화 (재시도 포함)
+    if not init_sensors_with_retry():
+        log_event("센서 초기화 최종 실패")
         current_state = config.STATE_ERROR
         set_led_state(config.STATE_ERROR)
-        while True: utime.sleep(1) # 오류 상태 유지
+        cleanup_and_exit("센서 초기화 실패")
+        return
 
     log_event("모든 센서 초기화 완료. 메인 루프 시작.")
     current_state = config.STATE_IDLE
@@ -76,10 +132,9 @@ def main():
     initial_altitude = None
     pressure_monitor_start_time = None
     last_pressure_check_time = None
-    last_batt_check_time = utime.ticks_ms()
 
-    while True:
-        try:
+    try:
+        while True:
             current_time_ms = utime.ticks_ms()
 
             # --- 상태별 처리 ---
@@ -150,31 +205,13 @@ def main():
                 set_led_state(current_state)
                 utime.sleep_ms(100)
 
-
-            # 루프 지연 (Sleep이 없는 경우 대비)
-            # 상태별로 필요한 최소 대기시간 고려
-            # if current_state != config.STATE_IDLE: # IDLE은 lightsleep 사용
-            #     utime.sleep_ms(10) # 짧은 대기
-
-        except KeyboardInterrupt:
-            log_event("사용자 요청으로 프로그램 종료")
-            break
-        except Exception as e:
-            log_event(f"메인 루프 오류 발생: {e}")
-            current_state = config.STATE_ERROR
-            set_led_state(config.STATE_ERROR)
-            utime.sleep_ms(1000)
-
-    # --- 종료 처리 ---
-    log_event("프로그램 종료 처리 시작")
-    if i2c0: 
-        try: i2c0.deinit()
-        except Exception as e: log_event(f"I2C0 해제 중 오류: {e}")
-    if i2c1: 
-        try: i2c1.deinit()
-        except Exception as e: log_event(f"I2C1 해제 중 오류: {e}")
-    led.off()
-    log_event("리소스 정리 완료. 프로그램 종료.")
+    except KeyboardInterrupt:
+        cleanup_and_exit("사용자 요청으로 인한 프로그램 종료")
+    except Exception as e:
+        log_event(f"메인 루프 오류 발생: {e}")
+        current_state = config.STATE_ERROR
+        set_led_state(config.STATE_ERROR)
+        cleanup_and_exit("메인 루프 오류로 인한 프로그램 종료")
 
 
 if __name__ == "__main__":

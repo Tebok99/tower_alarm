@@ -2,11 +2,11 @@
 
 # --- 하드웨어 핀 설정 ---
 # LSM6DS3 (I2C0)
-PIN_I2C0_SCL = 1
 PIN_I2C0_SDA = 0
+PIN_I2C0_SCL = 1
 # BMP280 (I2C1) - Pico의 I2C1 기본 핀 또는 원하는 핀으로 설정
-PIN_I2C1_SCL = 7 # GP7
 PIN_I2C1_SDA = 6 # GP6
+PIN_I2C1_SCL = 7 # GP7
 # 기타
 PIN_LED = "LED"
 # PIN_RELAY = 10 # --- 릴레이 핀 정의 제거 ---
@@ -38,13 +38,16 @@ MOTION_THRESHOLD_MG = 150
 
 # --- BMP280 설정 ---
 BMP280_ADDR = 0x76  # BMP280 기본 주소
-PRESSURE_AVG_SAMPLES = 3   # 기압 측정 시 평균낼 샘플 수
 ALTITUDE_CHANGE_THRESHOLD = 1.0 # 고도 변화 감지 임계값 (미터) - **민감한 반응, 작은 값 튜닝 필요**
 PRESSURE_MONITOR_INTERVAL_MS = 1000 # 기압 모니터링 간격 (ms)
 # 기압 모니터링 타임아웃 (ms) - 이 시간 동안 임계 고도값 변화 없으면 IDLE로 복귀
 PRESSURE_MONITOR_TIMEOUT_MS = PRESSURE_MONITOR_INTERVAL_MS * 5
 # 표준 해수면 기압 (Pa) - 고도 계산용 참조값
 SEA_LEVEL_PRESSURE_PA = 101325.0
+
+# --- 센서 초기화 설정 ---
+SENSOR_INIT_MAX_RETRIES = 3  # 센서 초기화 최대 재시도 횟수
+SENSOR_INIT_RETRY_DELAY_MS = 1000  # 재시도 간 대기 시간 (ms)
 
 # --- I2S 및 WAV 설정 ---
 I2S_ID = 0
@@ -53,11 +56,6 @@ PIN_I2S_WS = 15
 PIN_I2S_SD = 16
 I2S_BUFFER_SIZE = 2048
 WAV_FILE_PATH = "/wav/tower_crane_warning_fast.wav"
-
-# --- 전압 관련 설정 ---
-VOLTAGE_DIVIDER_RATIO = 3.0    # 전압 (V)
-ADC_REF_VOLTAGE = 3.3    # 전압 (V)
-LOW_BATT_THRESHOLD = 3.5    # 전압 (V)
 
 # --- 로그 파일 ---
 LOG_FILE_NAME = "log.txt" # 로그 파일 이름 변경
