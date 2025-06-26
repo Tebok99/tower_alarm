@@ -1,5 +1,6 @@
 from micropython import const
 from ustruct import unpack as unp
+import time
 
 # Author David Stenwall Wahlund (david at dafnet.se)
 
@@ -89,6 +90,13 @@ class BMP280:
     def __init__(self, i2c_bus, addr=0x76, use_case=BMP280_CASE_HANDHELD_DYN):
         self._bmp_i2c = i2c_bus
         self._i2c_addr = addr
+        
+        # soft reset
+        self.reset()
+
+        # wait for device to be ready
+        while self.is_updating:
+            time.sleep_ms(2)
 
         # read calibration data
         # < little-endian
@@ -143,24 +151,6 @@ class BMP280:
 
     def reset(self):
         self._write(_BMP280_REGISTER_RESET, 0xB6)
-
-    def load_test_calibration(self):
-        self._T1 = 27504
-        self._T2 = 26435
-        self._T3 = -1000
-        self._P1 = 36477
-        self._P2 = -10685
-        self._P3 = 3024
-        self._P4 = 2855
-        self._P5 = 140
-        self._P6 = -7
-        self._P7 = 15500
-        self._P8 = -14600
-        self._P9 = 6000
-
-    def load_test_data(self):
-        self._t_raw = 519888
-        self._p_raw = 415148
 
     def print_calibration(self):
         print("T1: {} {}".format(self._T1, type(self._T1)))

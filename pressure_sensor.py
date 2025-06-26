@@ -40,7 +40,7 @@ def init(i2c_bus, log_callback=None):
         return False
 
 def get_pressure_reading():
-    """Forced 모드로 전환, Status 레지스터를 확인하여 측정 완료 후 압력 반환 (Pa), 끝나고 Sleep"""
+    """Forced 모드로 전환, Status 레지스터를 확인하여 측정 완료 후 압력 반환 (Pa), 정상 종료시 Sleep 모드 전환하나 실행 실패 시 Sleep 모드 전환 실행"""
     if not is_initialized:
         _log("BMP280이 초기화 안 되었습니다.")
         return None
@@ -70,17 +70,21 @@ def get_pressure_reading():
         
         # --- 온도 보상된 압력 값 읽기 (속성 접근) ---
         pressure = _bmp_sensor.pressure
-        _bmp_sensor.sleep()
 
         if pressure is None:
             _log("압력 읽기 실패")
+            # 압력값이 비정상인 경우 예외로 간주하고 Sleep 모드로 복귀 시도
+            try:
+                _bmp_sensor.sleep()
+            except Exception as se:
+                _log(f"Sleep 모드 전환 오류: {se}")
             return None
         _log(f"압력 값: {pressure:.2f} Pa")
         return pressure
 
     except Exception as e:
         _log(f"압력 측정 중 오류: {e}")
-        # 오류 발생 시에도 Sleep 모드 시도
+        # 오류 발생 시에만 Sleep 모드 시도
         try:
             _bmp_sensor.sleep()
         except Exception as se:

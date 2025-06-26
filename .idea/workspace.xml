@@ -15,8 +15,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Refactor `boot.py` to improve USB power detection logic.&#10;&#10;- Added `is_usb_powered()` function utilizing the VBUS sense pin for USB power detection.&#10;- Differentiated behavior based on power source: USB vs. external battery.&#10;- Improved fallback logic for boards without VBUS pins.">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios.">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/________.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bmp280.py" beforeDir="false" afterPath="$PROJECT_DIR$/bmp280.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pressure_sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pressure_sensor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,25 +57,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.RadMigrateCodeStyle": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "newDevelopment",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;newDevelopment&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
       <changelist id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="" />
@@ -122,7 +125,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750932748546</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios.">
+      <option name="closed" value="true" />
+      <created>1750934272730</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1750934272730</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,7 +186,8 @@
     <MESSAGE value="Remove unused features and improve code readability.&#10;&#10;- Eliminated low battery checking logic and ADC-related functionality.&#10;- Adjusted initialization and runtime error handling for sensors.&#10;- Refined comments and modularized code for better maintainability." />
     <MESSAGE value="Add IntelliJ IDEA project configuration files to version control&#10;&#10;- `.idea/shelf/________.xml`: Stores unshelved changes metadata.&#10;- `.idea/codeStyles/codeStyleConfig.xml`: Sets default project code style.&#10;- `.idea/editor.xml`: Configures editor inspection settings." />
     <MESSAGE value="Refactor `boot.py` to improve USB power detection logic.&#10;&#10;- Added `is_usb_powered()` function utilizing the VBUS sense pin for USB power detection.&#10;- Differentiated behavior based on power source: USB vs. external battery.&#10;- Improved fallback logic for boards without VBUS pins." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor `boot.py` to improve USB power detection logic.&#10;&#10;- Added `is_usb_powered()` function utilizing the VBUS sense pin for USB power detection.&#10;- Differentiated behavior based on power source: USB vs. external battery.&#10;- Improved fallback logic for boards without VBUS pins." />
+    <MESSAGE value="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
