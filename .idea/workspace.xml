@@ -15,7 +15,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures.">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Refactor BMP-280 implementation for improved efficiency and clarity.&#10;&#10;- Simplified temperature and pressure calculations by removing redundant checks.&#10;- Eliminated unused attributes for cleaner code.&#10;- Adjusted comments for better readability.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bmp280.py" beforeDir="false" afterPath="$PROJECT_DIR$/bmp280.py" afterDir="false" />
     </list>
@@ -139,7 +139,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750968930830</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Refactor BMP-280 implementation for improved efficiency and clarity.&#10;&#10;- Simplified temperature and pressure calculations by removing redundant checks.&#10;- Eliminated unused attributes for cleaner code.&#10;- Adjusted comments for better readability.">
+      <option name="closed" value="true" />
+      <created>1750971833153</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1750971833153</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,7 +202,8 @@
     <MESSAGE value="Refactor `boot.py` to improve USB power detection logic.&#10;&#10;- Added `is_usb_powered()` function utilizing the VBUS sense pin for USB power detection.&#10;- Differentiated behavior based on power source: USB vs. external battery.&#10;- Improved fallback logic for boards without VBUS pins." />
     <MESSAGE value="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios." />
     <MESSAGE value="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures." />
+    <MESSAGE value="Refactor BMP-280 implementation for improved efficiency and clarity.&#10;&#10;- Simplified temperature and pressure calculations by removing redundant checks.&#10;- Eliminated unused attributes for cleaner code.&#10;- Adjusted comments for better readability." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor BMP-280 implementation for improved efficiency and clarity.&#10;&#10;- Simplified temperature and pressure calculations by removing redundant checks.&#10;- Eliminated unused attributes for cleaner code.&#10;- Adjusted comments for better readability." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

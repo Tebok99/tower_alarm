@@ -205,7 +205,7 @@ class BMP280:
         d = self._read(address)[0]
         m = int('1' * length, 2) << shift
         d &= ~m
-        d |= m & value << shift
+        d |= (m & value) << shift
         self._write(address, d)
 
     def _read_bits(self, address, length, shift=0):
