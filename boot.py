@@ -22,4 +22,4 @@ if is_usb_powered():
 else:
     print("외부 배터리 전원 - 자동 실행 모드")
     # 외부 전원 시에만 app.py 자동 실행
-    import app  # 또는 exec(open('app.py').read())
+    exec(open('app.py').read())
