@@ -210,7 +210,7 @@ class BMP280:
 
     def _read_bits(self, address, length, shift=0):
         d = self._read(address)[0]
-        return d >> shift & int('1' * length, 2)
+        return (d >> shift) & int('1' * length, 2)
 
     @property
     def standby(self):
@@ -228,7 +228,7 @@ class BMP280:
     @iir.setter
     def iir(self, v):
         assert 0 <= v <= 4
-        self._write_bits(_BMP280_REGISTER_CONFIG, v, 3, 2)
+        self._write_bits(_BMP280_REGISTER_CONFIG, 2**v, 3, 2)
 
     @property
     def spi3w(self):
@@ -295,10 +295,10 @@ class BMP280:
         assert 0 <= uc <= 5
         pm, oss, iir, sb = _BMP280_CASE_MATRIX[uc]
         p_os, t_os, self.read_wait_ms = _BMP280_OS_MATRIX[oss]
-        self._write(_BMP280_REGISTER_CONFIG, (iir << 2) + (sb << 5))
-        self._write(_BMP280_REGISTER_CONTROL, pm + (p_os << 2) + (t_os << 5))
+        self._write(_BMP280_REGISTER_CONFIG, (sb << 5) + (iir << 2))
+        self._write(_BMP280_REGISTER_CONTROL, (t_os << 5) + (p_os << 2) + pm)
 
     def oversample(self, oss):
         assert 0 <= oss <= 4
         p_os, t_os, self.read_wait_ms = _BMP280_OS_MATRIX[oss]
-        self._write_bits(_BMP280_REGISTER_CONTROL, p_os + (t_os << 3), 2)
+        self._write_bits(_BMP280_REGISTER_CONTROL, (t_os << 3) + p_os, 2)
