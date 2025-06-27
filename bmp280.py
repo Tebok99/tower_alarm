@@ -96,7 +96,7 @@ class BMP280:
 
         # wait for a device to be ready
         while self.is_updating:
-            time.sleep_ms(2)
+            time.sleep_ms(5)
 
         # read calibration data
         # < little-endian
@@ -147,6 +147,7 @@ class BMP280:
 
     def reset(self):
         self._write(_BMP280_REGISTER_RESET, 0xB6)
+        time.sleep_ms(200)  # 리셋 후 대기
 
     def print_calibration(self):
         print("T1: {} {}".format(self._T1, type(self._T1)))
@@ -228,7 +229,7 @@ class BMP280:
     @iir.setter
     def iir(self, v):
         assert 0 <= v <= 4
-        self._write_bits(_BMP280_REGISTER_CONFIG, 2**v, 3, 2)
+        self._write_bits(_BMP280_REGISTER_CONFIG, v, 3, 2)
 
     @property
     def spi3w(self):
@@ -301,4 +302,4 @@ class BMP280:
     def oversample(self, oss):
         assert 0 <= oss <= 4
         p_os, t_os, self.read_wait_ms = _BMP280_OS_MATRIX[oss]
-        self._write_bits(_BMP280_REGISTER_CONTROL, (t_os << 3) + p_os, 2)
+        self._write_bits(_BMP280_REGISTER_CONTROL, (t_os << 3) + p_os, 6, 2)
