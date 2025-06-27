@@ -18,7 +18,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Commits">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="audio_player.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/audio_player.py" beforeDir="false" afterPath="$PROJECT_DIR$/audio_player.py" afterDir="false" />
@@ -232,7 +232,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751008881172</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="audio_player.py">
+      <option name="closed" value="true" />
+      <created>1751012386196</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1751012386196</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,7 +304,8 @@
     <MESSAGE value="Refactor `pressure_sensor.py` for improved timeout handling and clarity&#10;&#10;- Replaced `max_wait_time` with a fixed `timeout` variable for consistency.&#10;- Adjusted actual wait time logging for improved accuracy.&#10;- Ensured type conversion in altitude calculation for robustness." />
     <MESSAGE value="Reduce default wait time in `pressure_sensor.py` from 50ms to 30ms for improved responsiveness." />
     <MESSAGE value="Commits" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commits" />
+    <MESSAGE value="audio_player.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="audio_player.py" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

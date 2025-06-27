@@ -154,7 +154,7 @@ def main():
     try:
         i2c0 = machine.I2C(config.I2C0_BUS_ID, scl=machine.Pin(config.PIN_I2C0_SCL),
                            sda=machine.Pin(config.PIN_I2C0_SDA), freq=config.I2C0_FREQ)
-        i2c1 = machine.SoftI2C(scl=machine.Pin(config.PIN_I2C1_SCL), sda=machine.Pin(config.PIN_I2C1_SDA),
+        i2c1 = machine.I2C(config.I2C1_BUS_ID, scl=machine.Pin(config.PIN_I2C1_SCL), sda=machine.Pin(config.PIN_I2C1_SDA),
                                freq=config.I2C1_FREQ)  # I2C 설정 오류로 SoftI2C를 설정함. 이유 모름..
         log_event("I2C 버스 초기화 완료 (Bus 0, Bus 1)")
     except Exception as e:
@@ -227,7 +227,7 @@ def main():
                                 # 재생 전 상태를 ACTION으로 변경하고 LED 켬 (선택사항)
                                 current_state = config.STATE_ACTION
                                 set_led_state(current_state)  # 재생 중 LED
-                                audio_player.play_wav_with_validation()
+                                audio_player.play_wav()
                                 # 재생 후 다시 모니터링 상태 유지 및 LED 업데이트
                                 current_state = config.STATE_MONITORING_PRESSURE
                                 set_led_state(current_state)
