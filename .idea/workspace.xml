@@ -15,7 +15,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency.">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
@@ -171,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750986728691</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`.">
+      <option name="closed" value="true" />
+      <created>1750987919892</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1750987919892</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,7 +238,8 @@
     <MESSAGE value="Fix bitwise operation logic in BMP-280 `_write_bits` method." />
     <MESSAGE value="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness." />
     <MESSAGE value="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency." />
+    <MESSAGE value="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
