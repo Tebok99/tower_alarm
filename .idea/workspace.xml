@@ -15,9 +15,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`.">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bmp280.py" beforeDir="false" afterPath="$PROJECT_DIR$/bmp280.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pressure_sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pressure_sensor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,25 +56,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;newDevelopment&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "newDevelopment",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
       <changelist id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="" />
@@ -179,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750987919892</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries.">
+      <option name="closed" value="true" />
+      <created>1750988828286</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1750988828286</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,7 +248,8 @@
     <MESSAGE value="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness." />
     <MESSAGE value="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency." />
     <MESSAGE value="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`." />
+    <MESSAGE value="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

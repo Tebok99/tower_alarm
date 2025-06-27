@@ -93,12 +93,12 @@ def get_pressure_reading():
 
 def pressure_to_altitude(pressure_pa, sea_level_pa=config.SEA_LEVEL_PRESSURE_PA):
     """기압(Pa)을 고도(m)로 변환 (표준 대기 모델 근사)"""
-    # 고도(m) = 44330 * (1 - (P/P0)^(1/5.257))
+    # 고도(m) = 44330 * (1 - (P/P0)^(1/5.255))
     if pressure_pa is None or pressure_pa <= 0:
         return None
     try:
-        pressure_ratio = float(pressure_pa) / float(sea_level_pa)
-        altitude = 44330.0 * (1.0 - pressure_ratio ** (1.0 / 5.257))
+        pressure_ratio = pressure_pa / sea_level_pa
+        altitude = 44330.0 * (1.0 - pressure_ratio ** (1.0 / 5.255))
         return altitude
     except Exception as e:
         _log(f"고도 변환 중 오류: {e}")

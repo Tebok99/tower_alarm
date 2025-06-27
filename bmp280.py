@@ -167,10 +167,7 @@ class BMP280:
         # From datasheet page 22
         self._gauge()
         var1 = (((self._t_raw >> 3) - (self._T1 << 1)) * self._T2) >> 11
-        var2 = (((((self._t_raw >> 4) - self._T1)
-                  * ((self._t_raw >> 4)
-                     - self._T1)) >> 12)
-                * self._T3) >> 14
+        var2 = (((((self._t_raw >> 4) - self._T1) * ((self._t_raw >> 4) - self._T1)) >> 12) * self._T3) >> 14
         self._t_fine = var1 + var2
 
     @property
@@ -194,7 +191,7 @@ class BMP280:
             return 0
 
         p = 1048576 - self._p_raw
-        p = int((((p << 31) - var2) * 3125) / var1)
+        p = (((p << 31) - var2) * 3125) // var1
         var1 = (self._P9 * (p >> 13) * (p >> 13)) >> 25
         var2 = (self._P8 * p) >> 19
 
