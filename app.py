@@ -15,6 +15,7 @@ current_state = config.STATE_INIT
 last_log_ticks = 0
 low_batt_warning_active = False
 
+
 # --- 유틸리티 함수 (log_event, init_led, set_led_state) ---
 def log_event(event):
     global last_log_ticks
@@ -35,10 +36,12 @@ def log_event(event):
     except Exception as e:
         print(f"로그 파일 기록 실패: {e}")
 
+
 def init_led():
     global led
     led = machine.Pin(config.PIN_LED, machine.Pin.OUT)
     led.off()
+
 
 def set_led_state(state):
     global led
@@ -52,6 +55,7 @@ def set_led_state(state):
         led.on()  # 재생 중 LED ON
     else:
         led.off()
+
 
 def cleanup_and_exit(reason="프로그램 종료"):
     """리소스 정리 및 프로그램 종료 처리"""
@@ -90,6 +94,7 @@ def cleanup_and_exit(reason="프로그램 종료"):
     utime.sleep_ms(500)
     log_event("프로그램 정상 종료")
     return
+
 
 def init_sensors_with_retry():
     """센서 및 오디오 초기화 (재시도 포함)"""
@@ -141,9 +146,15 @@ def init_sensors_with_retry():
     log_event("센서 및 오디오 초기화 최종 실패")
     return False
 
+
 # --- 메인 실행 로직 ---
 def main():
     global current_state, last_log_ticks, i2c0, i2c1, led
+
+    sda_pin0 = machine.Pin(config.PIN_I2C0_SDA, machine.Pin.PULL_UP)
+    scl_pin0 = machine.Pin(config.PIN_I2C0_SCL, machine.Pin.PULL_UP)
+    sda_pin1 = machine.Pin(config.PIN_I2C1_SDA, machine.Pin.PULL_UP)
+    scl_pin1 = machine.Pin(config.PIN_I2C1_SCL, machine.Pin.PULL_UP)
 
     last_log_ticks = utime.ticks_us()
     log_event("시스템 시작")
@@ -152,10 +163,8 @@ def main():
 
     # I2C 버스 초기화
     try:
-        i2c0 = machine.I2C(config.I2C0_BUS_ID, scl=machine.Pin(config.PIN_I2C0_SCL),
-                           sda=machine.Pin(config.PIN_I2C0_SDA), freq=config.I2C0_FREQ)
-        i2c1 = machine.I2C(config.I2C1_BUS_ID, scl=machine.Pin(config.PIN_I2C1_SCL), sda=machine.Pin(config.PIN_I2C1_SDA),
-                               freq=config.I2C1_FREQ)  # I2C 설정 오류로 SoftI2C를 설정함. 이유 모름..
+        i2c0 = machine.I2C(config.I2C0_BUS_ID, scl=scl_pin0, sda=sda_pin0, freq=config.I2C0_FREQ)
+        i2c1 = machine.SoftI2C(scl=scl_pin1, sda=sda_pin1, freq=config.I2C1_FREQ)  # I2C 설정 오류로 SoftI2C를 설정함. 이유 모름..
         log_event("I2C 버스 초기화 완료 (Bus 0, Bus 1)")
     except Exception as e:
         log_event(f"I2C 버스 초기화 실패: {e}")
@@ -264,6 +273,7 @@ def main():
     finally:
         # 최종 정리
         log_event("프로그램 최종 종료")
+
 
 if __name__ == "__main__":
     main()

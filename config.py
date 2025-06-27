@@ -48,7 +48,7 @@ SENSOR_INIT_MAX_RETRIES = 3  # 센서 초기화 최대 재시도 횟수
 SENSOR_INIT_RETRY_DELAY_MS = 1000  # 재시도 간 대기 시간 (ms)
 
 # --- I2S 및 WAV 설정 ---
-I2S_ID = 1
+I2S_ID = 0
 PIN_I2S_SCK = 14
 PIN_I2S_WS = 15
 PIN_I2S_SD = 16

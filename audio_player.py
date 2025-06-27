@@ -21,7 +21,7 @@ def _log(message):
 
 def init(log_callback=None):
     """I2S 오디오 초기화"""
-    global _log_func, _i2s, is_initialized, wav_info, wav_file
+    global _log_func, _i2s, is_initialized, wav_info, data_start_position
     _log_func = log_callback
     is_initialized = False
 
