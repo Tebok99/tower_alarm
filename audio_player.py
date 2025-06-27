@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import ustruct  # struct를 ustruct로 수정
+import ustruct
 import utime
 import machine
 import config
@@ -27,7 +27,7 @@ def init(log_callback=None):
             sd=machine.Pin(config.PIN_I2S_SD),
             mode=machine.I2S.TX,
             bits=16,
-            format=machine.I2S.STEREO,
+            format=machine.I2S.MONO,
             rate=22050,
             ibuf=config.I2S_BUFFER_SIZE
         )
@@ -53,12 +53,12 @@ def play_wav():
                 return False
             
             # WAV 헤더 파싱
-            if header[0:4] != b'RIFF':
+            if header[0:4] != b'RIFF' or header[8:12] != b'WAVE':
                 _log("유효하지 않은 WAV 파일")
                 return False
             
-            # 청크 크기를 ustruct로 읽기
-            file_size = ustruct.unpack('<I', header[4:8])[0]  # struct를 ustruct로 수정
+            # 청크 크기
+            file_size = ustruct.unpack('<I', header[4:8])[0]
             _log(f"WAV 파일 크기: {file_size} bytes")
             
             # 오디오 데이터 재생
@@ -87,26 +87,25 @@ def play_wav():
         return False
 
 def parse_wav_header(header):
-    """WAV 헤더 상세 파싱 (ustruct 사용)"""
     try:
         # RIFF 헤더
         riff_id = header[0:4]
-        chunk_size = ustruct.unpack('<I', header[4:8])[0]  # struct를 ustruct로 수정
+        chunk_size = ustruct.unpack('<I', header[4:8])[0]
         format_id = header[8:12]
         
         # fmt 청크
         fmt_id = header[12:16]
-        fmt_size = ustruct.unpack('<I', header[16:20])[0]  # struct를 ustruct로 수정
-        audio_format = ustruct.unpack('<H', header[20:22])[0]  # struct를 ustruct로 수정
-        num_channels = ustruct.unpack('<H', header[22:24])[0]  # struct를 ustruct로 수정
-        sample_rate = ustruct.unpack('<I', header[24:28])[0]  # struct를 ustruct로 수정
-        byte_rate = ustruct.unpack('<I', header[28:32])[0]  # struct를 ustruct로 수정
-        block_align = ustruct.unpack('<H', header[32:34])[0]  # struct를 ustruct로 수정
-        bits_per_sample = ustruct.unpack('<H', header[34:36])[0]  # struct를 ustruct로 수정
+        fmt_size = ustruct.unpack('<I', header[16:20])[0]
+        audio_format = ustruct.unpack('<H', header[20:22])[0]
+        num_channels = ustruct.unpack('<H', header[22:24])[0]
+        sample_rate = ustruct.unpack('<I', header[24:28])[0]
+        byte_rate = ustruct.unpack('<I', header[28:32])[0]
+        block_align = ustruct.unpack('<H', header[32:34])[0]
+        bits_per_sample = ustruct.unpack('<H', header[34:36])[0]
         
         # data 청크
         data_id = header[36:40]
-        data_size = ustruct.unpack('<I', header[40:44])[0]  # struct를 ustruct로 수정
+        data_size = ustruct.unpack('<I', header[40:44])[0]
         
         _log(f"WAV 헤더 정보:")
         _log(f"  포맷: {audio_format} (1=PCM)")

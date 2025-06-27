@@ -227,7 +227,7 @@ def main():
                                 # 재생 전 상태를 ACTION으로 변경하고 LED 켬 (선택사항)
                                 current_state = config.STATE_ACTION
                                 set_led_state(current_state)  # 재생 중 LED
-                                audio_player.play_wav()
+                                audio_player.play_wav_with_validation()
                                 # 재생 후 다시 모니터링 상태 유지 및 LED 업데이트
                                 current_state = config.STATE_MONITORING_PRESSURE
                                 set_led_state(current_state)
