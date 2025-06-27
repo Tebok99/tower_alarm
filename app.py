@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 import machine
 import utime
 import config
@@ -7,7 +8,7 @@ import pressure_sensor # 기압 센서 모듈 추가
 import audio_player
 
 # --- 전역 변수 ---
-led = machine.Pin(config.PIN_LED, machine.Pin.OUT)
+led = None
 i2c0 = None # LSM6DS3용
 i2c1 = None # BMP280용
 
@@ -30,9 +31,13 @@ def log_event(event):
         except Exception as fe: print(f"로그 파일 작성 실패: {fe}")
     except Exception as e: print(f"로그 파일 기록 실패: {e}")
 
-def init_led(): led.off()
+def init_led():
+    global led
+    led = machine.Pin(config.PIN_LED, machine.Pin.OUT)
+    led.off()
 
 def set_led_state(state):
+    global led
     if state == config.STATE_ERROR: led.off()
     elif state == config.STATE_IDLE: led.off() # IDLE 상태는 LED OFF (저전력)
     elif state == config.STATE_MONITORING_PRESSURE: led.on() # 모니터링 중 LED ON
@@ -41,27 +46,36 @@ def set_led_state(state):
 
 def cleanup_and_exit(reason="프로그램 종료"):
     """리소스 정리 및 프로그램 종료 처리"""
-    global i2c0, i2c1
+    global i2c0, i2c1, led
     log_event(f"{reason} - 종료 처리 시작")
     
     # I2C 버스 해제
     if i2c0: 
         try: 
-            i2c0.deinit()
+            i2c0 = None
             log_event("I2C0 해제 완료")
         except Exception as e: 
             log_event(f"I2C0 해제 중 오류: {e}")
     
     if i2c1: 
         try: 
-            i2c1.deinit()
+            i2c1 = None
             log_event("I2C1 해제 완료")
         except Exception as e: 
             log_event(f"I2C1 해제 중 오류: {e}")
-    
+
     # LED 끄기
-    led.off()
+    if led:
+        try:
+            led.off()
+            log_event("LED 해제 완료")
+        except Exception as e:
+            log_event(f"LED 해제 중 오류: {e}")
+
     log_event("리소스 정리 완료. 프로그램 종료.")
+
+    # 프로그램 완전 종료
+    sys.exit(0)
 
 def init_sensors_with_retry():
     """센서 초기화를 최대 3회까지 재시도"""
@@ -98,7 +112,7 @@ def init_sensors_with_retry():
 
 # --- 메인 실행 로직 ---
 def main():
-    global current_state, last_log_ticks, i2c0, i2c1
+    global current_state, last_log_ticks, i2c0, i2c1, led
 
     last_log_ticks = utime.ticks_us()
     log_event("시스템 시작")
@@ -213,9 +227,5 @@ def main():
         set_led_state(config.STATE_ERROR)
         cleanup_and_exit("메인 루프 오류로 인한 프로그램 종료")
 
-
 if __name__ == "__main__":
-    # 로그 파일 초기화 (선택 사항)
-    # try: import os; os.remove(config.LOG_FILE_NAME); log_event("Log Cleared")
-    # except OSError: pass
     main()

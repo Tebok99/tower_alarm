@@ -15,9 +15,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness.">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bmp280.py" beforeDir="false" afterPath="$PROJECT_DIR$/bmp280.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750976460498</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency.">
+      <option name="closed" value="true" />
+      <created>1750986728691</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1750986728691</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,7 +229,8 @@
     <MESSAGE value="Refactor BMP-280 implementation for improved efficiency and clarity.&#10;&#10;- Simplified temperature and pressure calculations by removing redundant checks.&#10;- Eliminated unused attributes for cleaner code.&#10;- Adjusted comments for better readability." />
     <MESSAGE value="Fix bitwise operation logic in BMP-280 `_write_bits` method." />
     <MESSAGE value="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness." />
+    <MESSAGE value="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency." />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
