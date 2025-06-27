@@ -46,7 +46,7 @@ def get_pressure_reading():
         return None
     try:
         # --- 측정 대기 시간 결정 (최대 대기 시간 설정) ---
-        wait_time = _bmp_sensor.read_wait_ms if _bmp_sensor.read_wait_ms > 0 else 50 # 안전 기본값 ms
+        wait_time = _bmp_sensor.read_wait_ms if _bmp_sensor.read_wait_ms > 0 else 30 # 안전 기본값 ms
         _log(f"최대 측정 대기 시간: {wait_time} ms (Standard Oversampling 기준)")
         
         # Forced 모드 시작
