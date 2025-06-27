@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-import sys
 import machine
 import utime
+import audio_player
 import config
 import motion_sensor
-import pressure_sensor  # 기압 센서 모듈 추가
-import audio_player
+import pressure_sensor
 
 # --- 전역 변수 ---
 led = None
@@ -15,7 +14,6 @@ i2c1 = None  # BMP280용
 current_state = config.STATE_INIT
 last_log_ticks = 0
 low_batt_warning_active = False
-
 
 # --- 유틸리티 함수 (log_event, init_led, set_led_state) ---
 def log_event(event):
@@ -37,12 +35,10 @@ def log_event(event):
     except Exception as e:
         print(f"로그 파일 기록 실패: {e}")
 
-
 def init_led():
     global led
     led = machine.Pin(config.PIN_LED, machine.Pin.OUT)
     led.off()
-
 
 def set_led_state(state):
     global led
@@ -56,7 +52,6 @@ def set_led_state(state):
         led.on()  # 재생 중 LED ON
     else:
         led.off()
-
 
 def cleanup_and_exit(reason="프로그램 종료"):
     """리소스 정리 및 프로그램 종료 처리"""
@@ -97,38 +92,54 @@ def cleanup_and_exit(reason="프로그램 종료"):
     return
 
 def init_sensors_with_retry():
-    """센서 초기화를 최대 3회까지 재시도"""
-    for attempt in range(1, config.SENSOR_INIT_MAX_RETRIES + 1):
-        log_event(f"센서 초기화 시도 {attempt}/{config.SENSOR_INIT_MAX_RETRIES}")
+    """센서 및 오디오 초기화 (재시도 포함)"""
+    for attempt in range(config.SENSOR_INIT_MAX_RETRIES):
+        log_event(f"센서 초기화 시도 {attempt + 1}/{config.SENSOR_INIT_MAX_RETRIES}")
 
-        # 모션 센서 초기화
-        motion_ok = motion_sensor.init(i2c0, log_event)
-        if motion_ok:
-            log_event("모션 센서 초기화 성공")
-        else:
-            log_event(f"모션 센서 초기화 실패 (시도 {attempt}/{config.SENSOR_INIT_MAX_RETRIES})")
+        success_count = 0
+        total_components = 3  # LSM6DS3, BMP280, Audio Player
 
-        # 기압 센서 초기화
-        pressure_ok = pressure_sensor.init(i2c1, log_event)
-        if pressure_ok:
-            log_event("기압 센서 초기화 성공")
-        else:
-            log_event(f"기압 센서 초기화 실패 (시도 {attempt}/{config.SENSOR_INIT_MAX_RETRIES})")
+        # LSM6DS3 초기화
+        try:
+            if motion_sensor.init(i2c0, log_event):
+                log_event("LSM6DS3 초기화 성공")
+                success_count += 1
+            else:
+                log_event("LSM6DS3 초기화 실패")
+        except Exception as e:
+            log_event(f"LSM6DS3 초기화 중 예외: {e}")
 
-        # 둘 다 성공하면 반환
-        if motion_ok and pressure_ok:
-            log_event(f"모든 센서 초기화 성공 (시도 {attempt}/{config.SENSOR_INIT_MAX_RETRIES})")
+        # BMP280 초기화
+        try:
+            if pressure_sensor.init(i2c1, log_event):
+                log_event("BMP280 초기화 성공")
+                success_count += 1
+            else:
+                log_event("BMP280 초기화 실패")
+        except Exception as e:
+            log_event(f"BMP280 초기화 중 예외: {e}")
+
+        # Audio Player 초기화 추가
+        try:
+            if audio_player.init(log_event):
+                log_event("I2S Audio Player 초기화 성공")
+                success_count += 1
+            else:
+                log_event("I2S Audio Player 초기화 실패")
+        except Exception as e:
+            log_event(f"I2S Audio Player 초기화 중 예외: {e}")
+
+        if success_count == total_components:
+            log_event("모든 구성 요소 초기화 성공")
             return True
-
-        # 마지막 시도가 아니면 대기 후 재시도
-        if attempt < config.SENSOR_INIT_MAX_RETRIES:
-            log_event(f"센서 초기화 실패. {config.SENSOR_INIT_RETRY_DELAY_MS}ms 후 재시도...")
-            utime.sleep_ms(config.SENSOR_INIT_RETRY_DELAY_MS)
         else:
-            log_event("모든 센서 초기화 시도 실패")
+            log_event(f"초기화 성공: {success_count}/{total_components}")
+            if attempt < config.SENSOR_INIT_MAX_RETRIES - 1:
+                log_event(f"{config.SENSOR_INIT_RETRY_DELAY_MS}ms 후 재시도...")
+                utime.sleep_ms(config.SENSOR_INIT_RETRY_DELAY_MS)
 
+    log_event("센서 및 오디오 초기화 최종 실패")
     return False
-
 
 # --- 메인 실행 로직 ---
 def main():
@@ -216,7 +227,7 @@ def main():
                                 # 재생 전 상태를 ACTION으로 변경하고 LED 켬 (선택사항)
                                 current_state = config.STATE_ACTION
                                 set_led_state(current_state)  # 재생 중 LED
-                                audio_player.play_wav(log_event)
+                                audio_player.play_wav()
                                 # 재생 후 다시 모니터링 상태 유지 및 LED 업데이트
                                 current_state = config.STATE_MONITORING_PRESSURE
                                 set_led_state(current_state)

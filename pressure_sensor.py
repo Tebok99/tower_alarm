@@ -6,12 +6,15 @@ from bmp280 import BMP280, BMP280_OS_STANDARD, BMP280_IIR_FILTER_4
 
 # 모듈 전역 변수
 _log_func = None
-_bmp_sensor = None # 실제 BMP280 라이브러리 객체
+_bmp_sensor = None  # 실제 BMP280 라이브러리 객체
 is_initialized = False
 
 def _log(message):
-    if _log_func: _log_func(f"[PressureSensor] {message}")
-    else: print(f"[PressureSensor] {message}")
+    global _log_func
+    if _log_func:
+        _log_func(f"[PressureSensor] {message}")
+    else:
+        print(f"[PressureSensor] {message}")
 
 def init(i2c_bus, log_callback=None):
     """BMP280 센서 초기화, FLOOR 케이스 설정 적용 및 Sleep 모드 설정"""
@@ -25,13 +28,13 @@ def init(i2c_bus, log_callback=None):
 
         # --- 'BMP280_CASE_FLOOR'에 해당하는 설정 적용 ---
         # Floor case: OS_STANDARD (Press=x4, Temp=x1), IIR Filter=4
-        _bmp_sensor.oversample(BMP280_OS_STANDARD) # Standard 오버샘플링 설정 (Press=x4, Temp=x1)
-        _bmp_sensor.iir = BMP280_IIR_FILTER_4      # IIR 필터 4 설정
+        _bmp_sensor.oversample(BMP280_OS_STANDARD)  # Standard 오버샘플링 설정 (Press=x4, Temp=x1)
+        _bmp_sensor.iir = BMP280_IIR_FILTER_4  # IIR 필터 4 설정
         _log(f"BMP280 설정: Oversampling=Standard(x4/x1), IIR Filter=4")
         # -------------------------------------------
 
         # 초기 상태를 Sleep 모드로 설정
-        _bmp_sensor.sleep() # 메소드 호출로 수정
+        _bmp_sensor.sleep()  # 메소드 호출로 수정
         _log("BMP280 초기화 및 Sleep 모드 진입 완료")
         is_initialized = True
         return True
@@ -46,28 +49,28 @@ def get_pressure_reading():
         return None
     try:
         # --- 측정 대기 시간 결정 (최대 대기 시간 설정) ---
-        wait_time = _bmp_sensor.read_wait_ms if _bmp_sensor.read_wait_ms > 0 else 30 # 안전 기본값 ms
+        wait_time = _bmp_sensor.read_wait_ms if _bmp_sensor.read_wait_ms > 0 else 30  # 안전 기본값 ms
         _log(f"최대 측정 대기 시간: {wait_time} ms (Standard Oversampling 기준)")
-        
+
         # Forced 모드 시작
         _bmp_sensor.force_measure()
 
         # Status 레지스터를 폴링하여 측정 완료 대기
         start_time = utime.ticks_ms()
-        timeout = 500   # ms
+        timeout = 500  # ms
 
-        utime.sleep_ms(wait_time)   # 기본 대기 시간
-        
+        utime.sleep_ms(wait_time)  # 기본 대기 시간
+
         while _bmp_sensor.is_measuring:
             current_time = utime.ticks_ms()
             if utime.ticks_diff(current_time, start_time) > timeout:
                 _log(f"측정 대기 타임아웃 도달({timeout} ms)")
                 break
             utime.sleep_ms(2)  # 2ms 간격 폴링
-        
+
         actual_wait_time = utime.ticks_diff(utime.ticks_ms(), start_time)
         _log(f"측정 실제 대기 시간: {actual_wait_time} ms")
-        
+
         # --- 온도 보상된 압력 값 읽기 (속성 접근) ---
         pressure = _bmp_sensor.pressure
 
@@ -90,6 +93,7 @@ def get_pressure_reading():
         except Exception as se:
             _log(f"Sleep 모드 전환 오류: {se}")
         return None
+
 
 def pressure_to_altitude(pressure_pa, sea_level_pa=config.SEA_LEVEL_PRESSURE_PA):
     """기압(Pa)을 고도(m)로 변환 (표준 대기 모델 근사)"""

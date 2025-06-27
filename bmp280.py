@@ -1,6 +1,6 @@
+import utime
 from micropython import const
 from ustruct import unpack as unp
-import time
 
 # Author David Stenwall Wahlund (david at dafnet.se)
 
@@ -90,13 +90,13 @@ class BMP280:
     def __init__(self, i2c_bus, addr=0x76, use_case=BMP280_CASE_HANDHELD_DYN):
         self._bmp_i2c = i2c_bus
         self._i2c_addr = addr
-        
+
         # soft reset
         self.reset()
 
         # wait for a device to be ready
         while self.is_updating:
-            time.sleep_ms(5)
+            utime.sleep_ms(5)
 
         # read calibration data
         # < little-endian
@@ -147,7 +147,7 @@ class BMP280:
 
     def reset(self):
         self._write(_BMP280_REGISTER_RESET, 0xB6)
-        time.sleep_ms(200)  # 리셋 후 대기
+        utime.sleep_ms(200)  # 리셋 후 대기
 
     def print_calibration(self):
         print("T1: {} {}".format(self._T1, type(self._T1)))

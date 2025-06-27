@@ -1,6 +1,8 @@
 # boot.py - VBUS 핀을 사용한 USB 전원 감지
-import machine
 import sys
+
+import machine
+
 
 def is_usb_powered():
     try:
@@ -14,6 +16,7 @@ def is_usb_powered():
             return hasattr(sys.stdin, 'read') and sys.stdin.read(0) is not None
         except:
             return False
+
 
 # 전원 공급원에 따른 분기
 if is_usb_powered():
