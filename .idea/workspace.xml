@@ -17,7 +17,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bmp280.py" beforeDir="false" afterPath="$PROJECT_DIR$/bmp280.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pressure_sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pressure_sensor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -188,7 +187,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750988828286</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries.">
+      <option name="closed" value="true" />
+      <created>1750992871948</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1750992871948</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -46,27 +46,27 @@ def get_pressure_reading():
         return None
     try:
         # --- 측정 대기 시간 결정 (최대 대기 시간 설정) ---
-        max_wait_time = _bmp_sensor.read_wait_ms if _bmp_sensor.read_wait_ms > 0 else 50 # 안전 기본값 ms
-        _log(f"최대 측정 대기 시간: {max_wait_time} ms (Standard Oversampling 기준)")
+        wait_time = _bmp_sensor.read_wait_ms if _bmp_sensor.read_wait_ms > 0 else 50 # 안전 기본값 ms
+        _log(f"최대 측정 대기 시간: {wait_time} ms (Standard Oversampling 기준)")
         
         # Forced 모드 시작
         _bmp_sensor.force_measure()
-        
+
         # Status 레지스터를 폴링하여 측정 완료 대기
         start_time = utime.ticks_ms()
-        timeout_reached = False
+        timeout = 500   # ms
+
+        utime.sleep_ms(wait_time)   # 기본 대기 시간
         
         while _bmp_sensor.is_measuring:
             current_time = utime.ticks_ms()
-            if utime.ticks_diff(current_time, start_time) > max_wait_time:
-                _log(f"측정 완료 대기 타임아웃 ({max_wait_time} ms)")
-                timeout_reached = True
+            if utime.ticks_diff(current_time, start_time) > timeout:
+                _log(f"측정 대기 타임아웃 도달({timeout} ms)")
                 break
-            utime.sleep_ms(2)  # 2ms 간격으로 폴링
+            utime.sleep_ms(2)  # 2ms 간격 폴링
         
-        if not timeout_reached:
-            actual_wait_time = utime.ticks_diff(utime.ticks_ms(), start_time)
-            _log(f"측정 완료 (실제 대기 시간: {actual_wait_time} ms)")
+        actual_wait_time = utime.ticks_diff(utime.ticks_ms(), start_time)
+        _log(f"측정 실제 대기 시간: {actual_wait_time} ms")
         
         # --- 온도 보상된 압력 값 읽기 (속성 접근) ---
         pressure = _bmp_sensor.pressure
@@ -97,7 +97,7 @@ def pressure_to_altitude(pressure_pa, sea_level_pa=config.SEA_LEVEL_PRESSURE_PA)
     if pressure_pa is None or pressure_pa <= 0:
         return None
     try:
-        pressure_ratio = pressure_pa / sea_level_pa
+        pressure_ratio = float(pressure_pa) / float(sea_level_pa)
         altitude = 44330.0 * (1.0 - pressure_ratio ** (1.0 / 5.255))
         return altitude
     except Exception as e:
