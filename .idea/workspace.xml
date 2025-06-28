@@ -18,10 +18,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="compensate calculation method edited">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="status checking logic added">
+      <change afterPath="$PROJECT_DIR$/app_only_bmp388.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_only_pressure.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_pressure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bmp280.py" beforeDir="false" afterPath="$PROJECT_DIR$/bmp280.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_only_pressure.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_bmp280.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +79,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "newDevelopment",
+    "last_opened_file_path": "E:/DevCode/tower_alarm_new",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -89,6 +90,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\DevCode\tower_alarm_new" />
+    </key>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
       <changelist id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="" />
@@ -338,7 +344,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751103293919</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="status checking logic added">
+      <option name="closed" value="true" />
+      <created>1751104371418</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1751104371418</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -410,7 +424,8 @@
     <MESSAGE value="insert audio_player module and run method edited" />
     <MESSAGE value="do not call calibrate_sea_level_pressure module" />
     <MESSAGE value="compensate calculation method edited" />
-    <option name="LAST_COMMIT_MESSAGE" value="compensate calculation method edited" />
+    <MESSAGE value="status checking logic added" />
+    <option name="LAST_COMMIT_MESSAGE" value="status checking logic added" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
