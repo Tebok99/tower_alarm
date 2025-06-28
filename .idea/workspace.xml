@@ -18,11 +18,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="audio_player.py">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="bug fix">
+      <change afterPath="$PROJECT_DIR$/app_only_pressure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio_player.py" beforeDir="false" afterPath="$PROJECT_DIR$/audio_player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +29,13 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -76,7 +81,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
+    "settings.editor.selected.configurable": "ml.llm.LLMThirdPartyAiProvidersConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -249,7 +254,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751018334269</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="bug fix">
+      <option name="closed" value="true" />
+      <created>1751020484284</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1751020484284</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -314,7 +327,8 @@
     <MESSAGE value="Reduce default wait time in `pressure_sensor.py` from 50ms to 30ms for improved responsiveness." />
     <MESSAGE value="Commits" />
     <MESSAGE value="audio_player.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="audio_player.py" />
+    <MESSAGE value="bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
