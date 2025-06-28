@@ -48,15 +48,15 @@ class BMP280NormalMode:
             # 보정 계수 읽기
             self.read_calibration_data()
 
-            # Normal Mode 설정
-            # osrs_t = 1 (×1), osrs_p = 4 (×4 standard), mode = 11 (normal)
-            ctrl_meas = 0x27  # 001_001_11
-            self.i2c.writeto_mem(self.BMP280_ADDR, 0xF4, bytes([ctrl_meas]))
-
             # Config 레지스터 설정
-            # t_sb = 100 (500ms standby), filter = 100 (IIR coeff 4), spi3w_en = 0
-            config = 0x90  # 100_100_0_0
+            # t_sb = 100 (500ms standby), filter = 011 (IIR coeff 4), spi3w_en = 0
+            config = 0x8C  # 100_011_0_0
             self.i2c.writeto_mem(self.BMP280_ADDR, 0xF5, bytes([config]))
+
+            # Normal Mode 설정
+            # osrs_t = 1 (×1), osrs_p = 3 (×4 standard), mode = 11 (normal)
+            ctrl_meas = 0x47  # 001_011_11
+            self.i2c.writeto_mem(self.BMP280_ADDR, 0xF4, bytes([ctrl_meas]))
 
             print("BMP280 Normal Mode 초기화 완료")
             return True
