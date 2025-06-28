@@ -136,23 +136,22 @@ class BMP280NormalMode:
         # var2 = pressure * self.cal_data['P8'] / 32768.0
         # pressure = pressure + (var1 + var2 + self.cal_data['P7']) / 16.0
 
-        var1 = self.t_fine - 128000
-        var2 = var1 * var1 * self.cal_data['P6']
-        var2 = var2 + ((var1 * self.cal_data['P5']) << 17)
-        var2 = var2 + (self.cal_data['P4'] << 35)
-        var1 = ((var1 * var1 * self.cal_data['P3']) >> 8) + ((var1 * self.cal_data['P2']) << 12)
-        var1 = (((1 << 47) + var1) * self.cal_data['P1']) >> 33
+        var1 = self.t_fine / 2.0 - 64000.0
+        var2 = var1 * var1 * self.cal_data['P6'] / 32768.0
+        var2 = var2 + (var1 * self.cal_data['P5'] * 2.0)
+        var2 = (var2 / 4.0) + (self.cal_data['P4'] * 65536.0)
+        var1 = (var1 * var1 * self.cal_data['P3'] / 524288.0) + (var1 * self.cal_data['P2'] / 524288.0)
+        var1 = (1.0 + (var1 / 32768.0)) * self.cal_data['P1']
 
-        if var1 == 0:
+        if var1 == 0.0:
             return 0
 
-        pressure = 1048576 - raw_press
-        pressure = (((pressure << 31) - var2) * 3125) / var1
-        var1 = (self.cal_data['P9'] * (pressure >> 13) * (pressure >> 13)) >> 25
-        var2 = (self.cal_data['P8'] * pressure) >> 19
+        pressure = 1048576.0 - raw_press
+        pressure = (pressure - (var2 / 4096.0)) * 6250.0 / var1
+        var1 = self.cal_data['P9'] * pressure * pressure / 2147483648.0
+        var2 = self.cal_data['P8'] * pressure / 32768.0
 
-        pressure = ((pressure + var1 + var2) >> 8) + (self.cal_data['P7'] << 4)
-        pressure = pressure / 256.0
+        pressure = pressure + (var1 + var2 + self.cal_data['P7']) / 16.0
 
         return pressure
 
