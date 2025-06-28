@@ -18,7 +18,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="insert audio_player module and run method edited">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="do not call calibrate_sea_level_pressure module">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app_only_pressure.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_pressure.py" afterDir="false" />
     </list>
@@ -297,7 +297,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751097128454</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="do not call calibrate_sea_level_pressure module">
+      <option name="closed" value="true" />
+      <created>1751099120394</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1751099120394</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -367,7 +375,8 @@
     <MESSAGE value="bmp280, pressure_sensor module edited." />
     <MESSAGE value="app_only_pressure.py edited." />
     <MESSAGE value="insert audio_player module and run method edited" />
-    <option name="LAST_COMMIT_MESSAGE" value="insert audio_player module and run method edited" />
+    <MESSAGE value="do not call calibrate_sea_level_pressure module" />
+    <option name="LAST_COMMIT_MESSAGE" value="do not call calibrate_sea_level_pressure module" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

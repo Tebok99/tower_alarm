@@ -1,6 +1,6 @@
 import machine
 import utime
-from machine import Pin, I2C, PWM
+from machine import Pin, SoftI2C, PWM
 import gc
 import audio_player
 
@@ -8,7 +8,7 @@ import audio_player
 class BMP280NormalMode:
     def __init__(self):
         # I2C 설정
-        self.i2c = I2C(0, sda=Pin(0), scl=Pin(1), freq=400000)
+        self.i2c = SoftI2C(sda=Pin(6), scl=Pin(7), freq=100000)
 
         # BMP280 설정
         self.BMP280_ADDR = 0x76
@@ -105,31 +105,54 @@ class BMP280NormalMode:
 
     def compensate_temperature(self, raw_temp):
         """온도 보정 계산"""
-        var1 = (raw_temp / 16384.0 - self.cal_data['T1'] / 1024.0) * self.cal_data['T2']
-        var2 = ((raw_temp / 131072.0 - self.cal_data['T1'] / 8192.0) ** 2) * self.cal_data['T3']
+        # var1 = (raw_temp / 16384.0 - self.cal_data['T1'] / 1024.0) * self.cal_data['T2']
+        # var2 = ((raw_temp / 131072.0 - self.cal_data['T1'] / 8192.0) ** 2) * self.cal_data['T3']
+        # self.t_fine = var1 + var2
+
+        var1 = (((raw_temp >> 3) - (self.cal_data['T1'] << 1)) * self.cal_data['T2']) >> 11
+        var2 = (((((raw_temp >> 4) - self.cal_data['T1']) * ((raw_temp >> 4) -self.cal_data['T1'])) >> 12) * self.cal_data['T3']) >> 14
         self.t_fine = var1 + var2
-        return self.t_fine / 5120.0
+
+        return ((self.t_fine * 5 + 128) >> 8) / 100.
 
     def compensate_pressure(self, raw_press):
         """기압 보정 계산"""
         if not hasattr(self, 't_fine'):
             return None
 
-        var1 = self.t_fine / 2.0 - 64000.0
-        var2 = var1 * var1 * self.cal_data['P6'] / 32768.0
-        var2 = var2 + var1 * self.cal_data['P5'] * 2.0
-        var2 = var2 / 4.0 + self.cal_data['P4'] * 65536.0
-        var1 = (self.cal_data['P3'] * var1 * var1 / 524288.0 + self.cal_data['P2'] * var1) / 524288.0
-        var1 = (1.0 + var1 / 32768.0) * self.cal_data['P1']
+        # var1 = self.t_fine / 2.0 - 64000.0
+        # var2 = var1 * var1 * self.cal_data['P6'] / 32768.0
+        # var2 = var2 + var1 * self.cal_data['P5'] * 2.0
+        # var2 = var2 / 4.0 + self.cal_data['P4'] * 65536.0
+        # var1 = (self.cal_data['P3'] * var1 * var1 / 524288.0 + self.cal_data['P2'] * var1) / 524288.0
+        # var1 = (1.0 + var1 / 32768.0) * self.cal_data['P1']
+        #
+        # if var1 == 0:
+        #     return None
+        #
+        # pressure = 1048576.0 - raw_press
+        # pressure = (pressure - var2 / 4096.0) * 6250.0 / var1
+        # var1 = self.cal_data['P9'] * pressure * pressure / 2147483648.0
+        # var2 = pressure * self.cal_data['P8'] / 32768.0
+        # pressure = pressure + (var1 + var2 + self.cal_data['P7']) / 16.0
+
+        var1 = self.t_fine - 128000
+        var2 = var1 * var1 * self.cal_data['P6']
+        var2 = var2 + ((var1 * self.cal_data['P5']) << 17)
+        var2 = var2 + (self.cal_data['P4'] << 35)
+        var1 = ((var1 * var1 * self.cal_data['P3']) >> 8) + ((var1 * self.cal_data['P2']) << 12)
+        var1 = (((1 << 47) + var1) * self.cal_data['P1']) >> 33
 
         if var1 == 0:
-            return None
+            return 0
 
-        pressure = 1048576.0 - raw_press
-        pressure = (pressure - var2 / 4096.0) * 6250.0 / var1
-        var1 = self.cal_data['P9'] * pressure * pressure / 2147483648.0
-        var2 = pressure * self.cal_data['P8'] / 32768.0
-        pressure = pressure + (var1 + var2 + self.cal_data['P7']) / 16.0
+        pressure = 1048576 - raw_press
+        pressure = (((pressure << 31) - var2) * 3125) / var1
+        var1 = (self.cal_data['P9'] * (pressure >> 13) * (pressure >> 13)) >> 25
+        var2 = (self.cal_data['P8'] * pressure) >> 19
+
+        pressure = ((pressure + var1 + var2) >> 8) + (self.cal_data['P7'] << 4)
+        pressure = pressure / 256.0
 
         return pressure
 
