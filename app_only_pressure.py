@@ -138,7 +138,7 @@ class BMP280NormalMode:
         if pressure <= 0:
             return None
 
-        altitude = 44330.0 * (1.0 - (pressure / self.sea_level_pressure)**0.1903)
+        altitude = 44330.0 * (1.0 - (pressure / self.sea_level_pressure)**0.190263)
         return altitude
 
     def update_altitude_buffer(self, altitude):
@@ -271,11 +271,11 @@ class BMP280NormalMode:
         # 초기화 완료 표시
         self.blink_led_pattern("init_success")
 
-        # 해수면 기압 보정
-        if not self.calibrate_sea_level_pressure():
-            print("해수면 기압 보정 실패")
-            self.blink_led_pattern("init_error")
-            return
+        # # 해수면 기압 보정
+        # if not self.calibrate_sea_level_pressure():
+        #     print("해수면 기압 보정 실패")
+        #     self.blink_led_pattern("init_error")
+        #     return
 
         print("시스템 준비 완료. 고도 변화 모니터링 시작...")
 
