@@ -191,7 +191,7 @@ class BMP280:
             return 0
 
         p = 1048576 - self._p_raw
-        p = (((p << 31) - var2) * 3125) // var1
+        p = (((p << 31) - var2) * 3125) / var1
         var1 = (self._P9 * (p >> 13) * (p >> 13)) >> 25
         var2 = (self._P8 * p) >> 19
 

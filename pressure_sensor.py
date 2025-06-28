@@ -27,15 +27,13 @@ def init(i2c_bus, log_callback=None):
         # --------------------------------------------------------------------
 
         # --- 'BMP280_CASE_FLOOR'에 해당하는 설정 적용 ---
-        # Floor case: OS_STANDARD (Press=x4, Temp=x1), IIR Filter=4
-        _bmp_sensor.oversample(BMP280_OS_STANDARD)  # Standard 오버샘플링 설정 (Press=x4, Temp=x1)
-        _bmp_sensor.iir = BMP280_IIR_FILTER_4  # IIR 필터 4 설정
+        # Floor case: OS_STANDARD (Temp=x1, Press=x4), IIR Filter=4
+        _bmp_sensor.iir = BMP280_IIR_FILTER_4
+        _bmp_sensor.oversample(BMP280_OS_STANDARD)
         _log(f"BMP280 설정: Oversampling=Standard(x4/x1), IIR Filter=4")
-        # -------------------------------------------
 
-        # 초기 상태를 Sleep 모드로 설정
-        _bmp_sensor.sleep()  # 메소드 호출로 수정
-        _log("BMP280 초기화 및 Sleep 모드 진입 완료")
+        _bmp_sensor.force_measure()
+        _log("BMP280 초기화 및 OSR, IIR, Forced Mode 명령 후 Sleep 모드 진입 완료")
         is_initialized = True
         return True
     except Exception as e:
@@ -43,7 +41,7 @@ def init(i2c_bus, log_callback=None):
         return False
 
 def get_pressure_reading():
-    """Forced 모드로 전환, Status 레지스터를 확인하여 측정 완료 후 압력 반환 (Pa), 정상 종료시 Sleep 모드 전환하나 실행 실패 시 Sleep 모드 전환 실행"""
+    """Forced 모드로 전환, Status 레지스터를 확인하여 측정 완료 후 압력 반환 (Pa), ㅇ정상 종료시 Sleep 모드 전환하나 실행 실패 시 Sleep 모드 전환 실행"""
     if not is_initialized:
         _log("BMP280이 초기화 안 되었습니다.")
         return None
@@ -76,11 +74,8 @@ def get_pressure_reading():
 
         if pressure is None:
             _log("압력 읽기 실패")
-            # 압력값이 비정상인 경우 예외로 간주하고 Sleep 모드로 복귀 시도
-            try:
-                _bmp_sensor.sleep()
-            except Exception as se:
-                _log(f"Sleep 모드 전환 오류: {se}")
+            _bmp_sensor.sleep()
+            _log(f"Sleep 모드 전환 오류: {se}")
             return None
         _log(f"압력 값: {pressure:.2f} Pa")
         return pressure

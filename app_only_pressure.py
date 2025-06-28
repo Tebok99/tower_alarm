@@ -9,7 +9,7 @@ import gc
 class BMP280NormalMode:
     def __init__(self):
         # I2C 설정
-        self.i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=400000)
+        self.i2c = I2C(0, sda=Pin(0), scl=Pin(1), freq=400000)
 
         # BMP280 설정
         self.BMP280_ADDR = 0x76
