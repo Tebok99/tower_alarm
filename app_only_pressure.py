@@ -1,9 +1,8 @@
 import machine
-import time
-import math
+import utime
 from machine import Pin, I2C, PWM
-import os
 import gc
+import audio_player
 
 
 class BMP280NormalMode:
@@ -21,6 +20,7 @@ class BMP280NormalMode:
 
         # 보정 계수
         self.cal_data = {}
+        self.t_fine = None
 
         # 고도 계산 관련
         self.sea_level_pressure = 101325.0  # 해수면 기압 (Pa)
@@ -43,7 +43,7 @@ class BMP280NormalMode:
 
             # 소프트 리셋
             self.i2c.writeto_mem(self.BMP280_ADDR, 0xE0, bytes([0xB6]))
-            time.sleep(0.01)
+            utime.sleep(0.01)
 
             # 보정 계수 읽기
             self.read_calibration_data()
@@ -138,7 +138,7 @@ class BMP280NormalMode:
         if pressure <= 0:
             return None
 
-        altitude = 44330.0 * (1.0 - pow(pressure / self.sea_level_pressure, 0.1903))
+        altitude = 44330.0 * (1.0 - (pressure / self.sea_level_pressure)**0.1903)
         return altitude
 
     def update_altitude_buffer(self, altitude):
@@ -169,58 +169,22 @@ class BMP280NormalMode:
 
         return False
 
-    def play_alarm_sound(self):
-        """알람 소리 재생"""
-        try:
-            # 간단한 비프음 (1000Hz, 500ms)
-            self.audio_pin.freq(1000)
-            self.audio_pin.duty_u16(32768)  # 50% duty cycle
-            time.sleep(0.5)
-            self.audio_pin.duty_u16(0)  # 소리 끄기
-
-            time.sleep(0.1)
-
-            # 두 번째 비프음 (1500Hz, 500ms)
-            self.audio_pin.freq(1500)
-            self.audio_pin.duty_u16(32768)
-            time.sleep(0.5)
-            self.audio_pin.duty_u16(0)
-
-        except Exception as e:
-            print(f"알람 소리 재생 실패: {e}")
-
-    def play_wav_file(self, filename):
-        """WAV 파일 재생 (간단한 구현)"""
-        try:
-            wav_path = f"wav/{filename}"
-            if "wav" in os.listdir() and filename in os.listdir("wav"):
-                print(f"WAV 파일 재생: {filename}")
-                # 실제 WAV 파일 재생을 위해서는 별도의 라이브러리 필요
-                # 여기서는 대체용 비프음 재생
-                self.play_alarm_sound()
-            else:
-                print(f"WAV 파일을 찾을 수 없음: {filename}")
-                self.play_alarm_sound()  # 대체 알람음
-        except Exception as e:
-            print(f"WAV 파일 재생 실패: {e}")
-            self.play_alarm_sound()
-
     def blink_led_pattern(self, pattern_type):
         """LED 패턴 표시"""
         if pattern_type == "init_success":
             # 초기화 성공: 3번 짧게 깜빡
             for _ in range(3):
                 self.led.on()
-                time.sleep(0.1)
+                utime.sleep(0.1)
                 self.led.off()
-                time.sleep(0.1)
+                utime.sleep(0.1)
         elif pattern_type == "init_error":
             # 초기화 실패: 5번 빠르게 깜빡
             for _ in range(5):
                 self.led.on()
-                time.sleep(0.05)
+                utime.sleep(0.05)
                 self.led.off()
-                time.sleep(0.05)
+                utime.sleep(0.05)
         elif pattern_type == "measuring":
             # 측정 중: LED 켜기
             self.led.on()
@@ -228,9 +192,9 @@ class BMP280NormalMode:
             # 고도 변화 감지: 길게 3번 깜빡
             for _ in range(3):
                 self.led.on()
-                time.sleep(0.3)
+                utime.sleep(0.3)
                 self.led.off()
-                time.sleep(0.2)
+                utime.sleep(0.2)
         elif pattern_type == "normal":
             # 정상 동작: LED 끄기
             self.led.off()
@@ -242,7 +206,7 @@ class BMP280NormalMode:
     def log_data(self, pressure, temperature, altitude):
         """데이터 로그 기록 (전력 절약을 위해 주기적으로만)"""
         try:
-            timestamp = time.ticks_ms()
+            timestamp = utime.ticks_ms()
             log_entry = f"{timestamp},{pressure:.2f},{temperature:.2f},{altitude:.2f}\n"
 
             # 메모리에 임시 저장 후 주기적으로 파일에 기록
@@ -270,7 +234,7 @@ class BMP280NormalMode:
             if pressure:
                 pressure_samples.append(pressure)
                 print(f"보정 샘플 {i + 1}/{samples}: {pressure:.2f} Pa")
-            time.sleep(0.5)  # 500ms 간격
+            utime.sleep(0.5)  # 500ms 간격
 
         if pressure_samples:
             self.sea_level_pressure = sum(pressure_samples) / len(pressure_samples)
@@ -293,6 +257,17 @@ class BMP280NormalMode:
             self.blink_led_pattern("init_error")
             return
 
+        # Audio Player 초기화 추가
+        try:
+            if audio_player.init():
+                print("I2S Audio Player 초기화 성공")
+            else:
+                print("I2S Audio Player 초기화 실패")
+                return
+        except Exception as e:
+            print(f"I2S Audio Player 초기화 중 예외: {e}")
+            return
+
         # 초기화 완료 표시
         self.blink_led_pattern("init_success")
 
@@ -308,11 +283,11 @@ class BMP280NormalMode:
         try:
             with open("tower_log.csv", "w") as f:
                 f.write("timestamp,pressure,temperature,altitude\n")
-        except:
+        except IOError:
             pass
 
         measurement_count = 0
-        last_log_time = time.ticks_ms()
+        last_log_time = utime.ticks_ms()
 
         try:
             while True:
@@ -343,18 +318,18 @@ class BMP280NormalMode:
                                 self.blink_led_pattern("altitude_change")
 
                                 # 알람 소리 재생
-                                self.play_wav_file("alarm.wav")  # wav 폴더의 alarm.wav 재생
+                                audio_player.play_wav()  # wav 폴더의 wav file 재생
 
                                 # 로그에 이벤트 기록
-                                current_time = time.ticks_ms()
+                                current_time = utime.ticks_ms()
                                 if not hasattr(self, 'log_buffer'):
                                     self.log_buffer = []
                                 self.log_buffer.append(
                                     f"{current_time},EVENT,ALTITUDE_CHANGE,{smoothed_altitude:.2f}\n")
 
                         # 주기적 로그 기록 (1분마다)
-                        current_time = time.ticks_ms()
-                        if time.ticks_diff(current_time, last_log_time) > 60000:  # 60초
+                        current_time = utime.ticks_ms()
+                        if utime.ticks_diff(current_time, last_log_time) > 60000:  # 60초
                             self.log_data(pressure, temperature, smoothed_altitude)
                             last_log_time = current_time
 
@@ -366,7 +341,7 @@ class BMP280NormalMode:
 
                 # Normal Mode에서는 센서가 자동으로 500ms마다 측정하므로
                 # 충분한 대기 시간 확보
-                time.sleep(0.6)  # 600ms 대기
+                utime.sleep(0.6)  # 600ms 대기
 
                 # 메모리 정리
                 if measurement_count % 50 == 0:
@@ -379,7 +354,8 @@ class BMP280NormalMode:
                 try:
                     with open("tower_log.csv", "a") as f:
                         f.writelines(self.log_buffer)
-                except:
+                except IOError:
+                    print("tower_log.csv 파일 작성 오류")
                     pass
 
         except Exception as e:
