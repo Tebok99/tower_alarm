@@ -152,7 +152,7 @@ class BMP280NormalMode:
         var2 = (self.cal_data['P8'] * pressure) >> 19
 
         pressure = ((pressure + var1 + var2) >> 8) + (self.cal_data['P7'] << 4)
-        pressure = pressure / 256.0
+        pressure = pressure >> 8
 
         return pressure
 

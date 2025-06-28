@@ -178,25 +178,25 @@ class BMP280:
 
     @property
     def pressure(self):
-        # From datasheet page 45
+        # From datasheet page 22
         self._calc_t_fine()
-        var1 = self._t_fine / 2.0 - 64000.0
-        var2 = var1 * var1 * self._P6 / 32768.0
-        var2 = var2 + (var1 * self._P5 * 2.0)
-        var2 = (var2 / 4.0) + (self._P4 * 65536.0)
-        var1 = (var1 * var1 * self._P3 / 524288.0) + (var1 * self._P2 / 524288.0)
-        var1 = (1.0 + (var1 / 32768.0)) * self._P1
+        var1 = self._t_fine - 128000
+        var2 = var1 * var1 * self._P6
+        var2 = var2 + ((var1 * self._P5) << 17)
+        var2 = var2 + (self._P4 << 35)
+        var1 = ((var1 * var1 * self._P3) >> 8) + ((var1 * self._P2) << 12)
+        var1 = (((1 << 47) + var1) * self._P1) >> 33
 
-        if var1 == 0.0:
+        if var1 == 0:
             return 0
 
-        p = 1048576.0 - self._p_raw
-        p = (p - (var2 / 4096.0)) * 6250.0 / var1
-        var1 = self._P9 * p * p / 2147483648.0
-        var2 = self._P8 * p / 32768.0
+        p = 1048576 - self._p_raw
+        p = (((p << 31) - var2) * 3125) // var1
+        var1 = (self._P9 * (p >> 13) * (p >> 13)) >> 25
+        var2 = (self._P8 * p) >> 19
 
-        p = p + (var1 + var2 + self._P7) / 16.0
-        self._p = p
+        p = ((p + var1 + var2) >> 8) + (self._P7 << 4)
+        self._p = p >> 8
         return self._p
 
     def _write_bits(self, address, value, length, shift=0):
