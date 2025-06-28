@@ -196,7 +196,7 @@ class BMP280:
         var2 = (self._P8 * p) >> 19
 
         p = ((p + var1 + var2) >> 8) + (self._P7 << 4)
-        self._p = p >> 8
+        self._p = p / 256.
         return self._p
 
     def _write_bits(self, address, value, length, shift=0):

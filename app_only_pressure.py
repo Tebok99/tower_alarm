@@ -13,6 +13,7 @@ class BMP280NormalMode:
         # BMP280 설정
         self.BMP280_ADDR = 0x76
         self.BMP280_ID = 0x58
+        self.BMP280_STATUS = 0xF3
 
         # LED 및 전원 핀
         self.led = Pin(25, Pin.OUT)
@@ -46,6 +47,8 @@ class BMP280NormalMode:
             utime.sleep(0.01)
 
             # 보정 계수 읽기
+            while self.i2c.readfrom_mem(self.BMP280_ADDR, self.BMP280_STATUS, 1)[0] & 0x01:
+                utime.sleep_ms(5)
             self.read_calibration_data()
 
             # Config 레지스터 설정
@@ -152,7 +155,7 @@ class BMP280NormalMode:
         var2 = (self.cal_data['P8'] * pressure) >> 19
 
         pressure = ((pressure + var1 + var2) >> 8) + (self.cal_data['P7'] << 4)
-        pressure = pressure >> 8
+        pressure = pressure / 256.
 
         return pressure
 
@@ -316,6 +319,8 @@ class BMP280NormalMode:
             while True:
                 self.blink_led_pattern("measuring")
 
+                while self.i2c.readfrom_mem(self.BMP280_ADDR, self.BMP280_STATUS, 1)[0] & 0x08:
+                    utime.sleep_ms(5)
                 # 기압 및 온도 측정
                 pressure, temperature = self.read_pressure_temperature()
 
@@ -364,7 +369,7 @@ class BMP280NormalMode:
 
                 # Normal Mode에서는 센서가 자동으로 500ms마다 측정하므로
                 # 충분한 대기 시간 확보
-                utime.sleep(0.6)  # 600ms 대기
+                utime.sleep(0.5)  # 500ms 대기
 
                 # 메모리 정리
                 if measurement_count % 50 == 0:
