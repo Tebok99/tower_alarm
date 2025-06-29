@@ -8,7 +8,7 @@ import audio_player
 class BMP280NormalMode:
     def __init__(self):
         # I2C 설정
-        self.i2c = SoftI2C(sda=Pin(6), scl=Pin(7), freq=100000)
+        self.i2c = SoftI2C(sda=Pin(0), scl=Pin(1), freq=100000)
 
         # BMP280 설정
         self.BMP280_ADDR = 0x76
@@ -282,15 +282,15 @@ class BMP280NormalMode:
             return
 
         # Audio Player 초기화 추가
-        try:
-            if audio_player.init():
-                print("I2S Audio Player 초기화 성공")
-            else:
-                print("I2S Audio Player 초기화 실패")
-                return
-        except Exception as e:
-            print(f"I2S Audio Player 초기화 중 예외: {e}")
-            return
+        # try:
+        #     if audio_player.init():
+        #         print("I2S Audio Player 초기화 성공")
+        #     else:
+        #         print("I2S Audio Player 초기화 실패")
+        #         return
+        # except Exception as e:
+        #     print(f"I2S Audio Player 초기화 중 예외: {e}")
+        #     return
 
         # 초기화 완료 표시
         self.blink_led_pattern("init_success")
@@ -344,7 +344,8 @@ class BMP280NormalMode:
                                 self.blink_led_pattern("altitude_change")
 
                                 # 알람 소리 재생
-                                audio_player.play_wav()  # wav 폴더의 wav file 재생
+                                # audio_player.play_wav()  # wav 폴더의 wav file 재생
+                                print("(가상)오디오 재생.")
 
                                 # 로그에 이벤트 기록
                                 current_time = utime.ticks_ms()
