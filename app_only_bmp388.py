@@ -51,16 +51,16 @@ class BMP388NormalMode:
             osr = 0x0C  # 00_001_100
             self.i2c.writeto_mem(self.BMP388_ADDR, 0x1C, bytes([osr]))
 
-            # odr = 100 (40ms standby)
-            odr = 0x03  # 000_01100
+            # odr = 011 (40ms standby)
+            odr = 0x03  # 000_00011
             self.i2c.writeto_mem(self.BMP388_ADDR, 0x1D, bytes([odr]))
 
             # filter = 100 (IIR coeff 15)
             iir = 0x08  # 0000_100_0
-            self.i2c.writeto_mem(self.BMP388_ADDR, 0xF5, bytes([iir]))
+            self.i2c.writeto_mem(self.BMP388_ADDR, 0x1F, bytes([iir]))
 
             # Normal Mode 설정 (3 << 4) | 3
-            pwr_ctrl = 0x33  # 0011_00_11
+            pwr_ctrl = 0x33  # 00_11_00_11
             self.i2c.writeto_mem(self.BMP388_ADDR, 0x1B, bytes([pwr_ctrl]))
 
             print("BMP388 Normal Mode 초기화 완료")
