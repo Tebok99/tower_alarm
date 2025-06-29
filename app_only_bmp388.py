@@ -45,8 +45,6 @@ class BMP388NormalMode:
             utime.sleep_ms(10)
 
             # 보정 계수 읽기
-            while self.i2c.readfrom_mem(self.BMP388_ADDR, self.BMP388_STATUS, 1)[0] & 0x10:
-                utime.sleep_ms(5)
             self.read_calibration_data()
 
             # osrs_t = 1 (×2), osrs_p = 4 (×16 standard)
