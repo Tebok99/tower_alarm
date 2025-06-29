@@ -334,7 +334,7 @@ class BMP388NormalMode:
             while True:
                 self.blink_led_pattern("measuring")
 
-                while self.i2c.readfrom_mem(self.BMP388_ADDR, self.BMP388_STATUS, 1)[0] & 0x60:
+                while (self.i2c.readfrom_mem(self.BMP388_ADDR, self.BMP388_STATUS, 1)[0] & 0x60) != 0x60:
                     utime.sleep_ms(5)
                 # 기압 및 온도 측정
                 pressure, temperature = self.read_pressure_temperature()
