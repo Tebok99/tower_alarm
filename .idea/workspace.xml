@@ -18,10 +18,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="status checking logic added">
-      <change afterPath="$PROJECT_DIR$/app_only_bmp388.py" afterDir="false" />
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="Create BMP388.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_only_pressure.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_bmp280.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_only_bmp388.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_bmp388.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +74,7 @@
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
@@ -352,7 +352,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751104371418</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Create BMP388.">
+      <option name="closed" value="true" />
+      <created>1751108150653</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1751108150653</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -400,7 +408,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Remove `.vscode/settings.json` and `.idx/dev.nix` to clean up unused configuration files." />
     <MESSAGE value="Remove shelved changes to `.vscode/settings.json` for cleanup." />
     <MESSAGE value="Remove unused features and improve code readability.&#10;&#10;- Eliminated low battery checking logic and ADC-related functionality.&#10;- Adjusted initialization and runtime error handling for sensors.&#10;- Refined comments and modularized code for better maintainability." />
     <MESSAGE value="Add IntelliJ IDEA project configuration files to version control&#10;&#10;- `.idea/shelf/________.xml`: Stores unshelved changes metadata.&#10;- `.idea/codeStyles/codeStyleConfig.xml`: Sets default project code style.&#10;- `.idea/editor.xml`: Configures editor inspection settings." />
@@ -425,7 +432,8 @@
     <MESSAGE value="do not call calibrate_sea_level_pressure module" />
     <MESSAGE value="compensate calculation method edited" />
     <MESSAGE value="status checking logic added" />
-    <option name="LAST_COMMIT_MESSAGE" value="status checking logic added" />
+    <MESSAGE value="Create BMP388." />
+    <option name="LAST_COMMIT_MESSAGE" value="Create BMP388." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
