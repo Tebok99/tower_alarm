@@ -31,6 +31,7 @@ class BMP388NormalMode:
         self.reference_altitude = None
         self.reference_altitude_time = None
         self.interval_check_altitude = 5000 # 5 seconds 고도변화 측정 주기
+        self.log_buffer = None
 
 
     def init_bmp388_normal_mode(self):
