@@ -18,7 +18,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="interval time setting for check_altitude_change.">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="log_data method error correction.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app_only_bmp388.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_bmp388.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,28 +68,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.RadMigrateCodeStyle": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "newDevelopment",
-    "last_opened_file_path": "E:/DevCode/tower_alarm_new",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "ml.llm.LLMThirdPartyAiProvidersConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;newDevelopment&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/DevCode/tower_alarm_new&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMThirdPartyAiProvidersConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\DevCode\tower_alarm_new" />
@@ -447,7 +448,23 @@
       <option name="project" value="LOCAL" />
       <updated>1751450996149</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="log_buffer property correction.">
+      <option name="closed" value="true" />
+      <created>1751451706028</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1751451706028</updated>
+    </task>
+    <task id="LOCAL-00045" summary="log_data method error correction.">
+      <option name="closed" value="true" />
+      <created>1751452721457</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1751452721457</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,8 +512,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fix bitwise operation logic in BMP-280 `_write_bits` method." />
-    <MESSAGE value="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness." />
     <MESSAGE value="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency." />
     <MESSAGE value="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`." />
     <MESSAGE value="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries." />
@@ -520,7 +535,9 @@
     <MESSAGE value="checking run-time edited." />
     <MESSAGE value="logging edited." />
     <MESSAGE value="interval time setting for check_altitude_change." />
-    <option name="LAST_COMMIT_MESSAGE" value="interval time setting for check_altitude_change." />
+    <MESSAGE value="log_buffer property correction." />
+    <MESSAGE value="log_data method error correction." />
+    <option name="LAST_COMMIT_MESSAGE" value="log_data method error correction." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

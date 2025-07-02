@@ -1,8 +1,7 @@
-import machine
 import utime
 from machine import Pin, SoftI2C
 import gc
-import audio_player
+from audio_player import AudioPlayer
 
 
 class BMP388NormalMode:
@@ -31,7 +30,8 @@ class BMP388NormalMode:
         self.reference_altitude = None
         self.reference_altitude_time = None
         self.interval_check_altitude = 5000 # 5 seconds 고도변화 측정 주기
-        self.log_buffer = None
+        self.log_buffer = []
+        self.interval_log_data = 60000  # 60 seconds
 
 
     def init_bmp388_normal_mode(self):
@@ -259,14 +259,12 @@ class BMP388NormalMode:
     def log_data(self):
         """데이터 로그 기록 (전력 절약을 위해 주기적으로만)"""
         try:
-            if not hasattr(self, 'log_buffer') and self.log_buffer is None:
-                self.log_buffer = []
-
-            # 10개 데이터마다 파일에 기록 (전력 절약)
-            if len(self.log_buffer) >= 10:
+            if self.log_buffer is not None:
+                # 파일에 기록 (전력 절약)
                 with open("tower_log.csv", "a") as f:
-                    f.writelines(self.log_buffer)
-                self.log_buffer = []
+                    f.write(self.log_buffer)
+
+            self.log_buffer = []
 
         except Exception as e:
             print(f"로그 기록 실패: {e}")
@@ -306,7 +304,8 @@ class BMP388NormalMode:
 
         # # Audio Player 초기화 추가
         # try:
-        #     if audio_player.init():
+        #     self.audio_player = AudioPlayer()
+        #     if self.audio_player and self.audio_player.init():
         #         print("I2S Audio Player 초기화 성공")
         #     else:
         #         print("I2S Audio Player 초기화 실패")
@@ -369,18 +368,17 @@ class BMP388NormalMode:
                                 self.blink_led_pattern("altitude_change")
 
                                 # 알람 소리 재생
-                                # audio_player.play_wav()  # wav 폴더의 wav file 재생
+                                # self.audio_player.play_wav()  # wav 폴더의 wav file 재생
                                 print("(가상)오디오 재생.")
 
                                 # 로그에 이벤트 기록
-                                if not hasattr(self, 'log_buffer') and self.log_buffer is None:
-                                    self.log_buffer = []
-                                self.log_buffer.append(
-                                    f"{utime.ticks_ms()},{pressure:.2f},{temperature:.2f},{smoothed_altitude:.2f}\n")
+                                if self.log_buffer is not None:
+                                    self.log_buffer.append(f"{utime.ticks_ms()},{pressure:.2f},{temperature:.2f},{smoothed_altitude:.2f}\n")
+                                self.log_buffer = []
 
                         # 주기적 로그 기록 (1분마다)
                         current_time = utime.ticks_ms()
-                        if utime.ticks_diff(current_time, last_log_time) > 60000:  # 60초
+                        if utime.ticks_diff(current_time, last_log_time) > self.interval_log_data:
                             self.log_data()
                             last_log_time = current_time
 
@@ -401,14 +399,6 @@ class BMP388NormalMode:
 
         except KeyboardInterrupt:
             print("프로그램 종료")
-            # 마지막 로그 데이터 저장
-            if hasattr(self, 'log_buffer') and self.log_buffer:
-                try:
-                    with open("tower_log.csv", "a") as f:
-                        f.writelines(self.log_buffer)
-                except IOError:
-                    print("tower_log.csv 파일 작성 오류")
-                    pass
 
         except Exception as e:
             print(f"시스템 오류: {e}")
@@ -416,10 +406,25 @@ class BMP388NormalMode:
 
         finally:
             # 정리 작업
-            self.led.off()
-            if hasattr(self, 'audio_pin'):
-                self.audio_pin.duty_u16(0)
-
+            # 마지막 로그 데이터 저장
+            if hasattr(self, 'log_buffer') and self.log_buffer:
+                try:
+                    with open("tower_log.csv", "a") as f:
+                        f.write(self.log_buffer)
+                except IOError:
+                    print("tower_log.csv 파일 작성 오류")
+            # LED 및 오디오 핀 정리
+            if hasattr(self, 'led'):
+                self.led.off()
+            if hasattr(self, 'audio_player'):
+                self.audio_player.deinit()
+            # I2C 정리
+            if hasattr(self, 'i2c'):
+                try:
+                    self.i2c.deinit()
+                    print("I2C 리소스 해제 완료")
+                except Exception as e:
+                    print(f"I2C 해제 중 오류: {e}")
 
 # 메인 실행
 if __name__ == "__main__":
