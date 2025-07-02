@@ -244,17 +244,11 @@ class BMP388NormalMode:
         """배터리 전원 여부 확인"""
         return self.usb_detect.value() == 1
 
-    def log_data(self, pressure, temperature, altitude):
+    def log_data(self):
         """데이터 로그 기록 (전력 절약을 위해 주기적으로만)"""
         try:
-            timestamp = utime.ticks_ms()
-            log_entry = f"{timestamp},{pressure:.2f},{temperature:.2f},{altitude:.2f}\n"
-
-            # 메모리에 임시 저장 후 주기적으로 파일에 기록
-            if not hasattr(self, 'log_buffer'):
+            if not hasattr(self, 'log_buffer') and not self.log_buffer:
                 self.log_buffer = []
-
-            self.log_buffer.append(log_entry)
 
             # 10개 데이터마다 파일에 기록 (전력 절약)
             if len(self.log_buffer) >= 10:
@@ -368,15 +362,15 @@ class BMP388NormalMode:
 
                                 # 로그에 이벤트 기록
                                 current_time = utime.ticks_ms()
-                                if not hasattr(self, 'log_buffer'):
+                                if not hasattr(self, 'log_buffer') and self.log_buffer:
                                     self.log_buffer = []
                                 self.log_buffer.append(
-                                    f"{current_time},EVENT,ALTITUDE_CHANGE,{smoothed_altitude:.2f}\n")
+                                    f"{current_time},{pressure:.2f},{temperature:.2f},{smoothed_altitude:.2f}\n")
 
                         # 주기적 로그 기록 (1분마다)
                         current_time = utime.ticks_ms()
                         if utime.ticks_diff(current_time, last_log_time) > 60000:  # 60초
-                            self.log_data(pressure, temperature, smoothed_altitude)
+                            self.log_data()
                             last_log_time = current_time
 
                 else:
