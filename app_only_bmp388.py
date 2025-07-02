@@ -329,17 +329,18 @@ class BMP388NormalMode:
 
         measurement_count = 0
         last_log_time = utime.ticks_ms()
+        run_time = utime.ticks_ms()
 
         try:
             while True:
                 self.blink_led_pattern("measuring")
-                start_time = utime.ticks_ms()
 
                 while (self.i2c.readfrom_mem(self.BMP388_ADDR, self.BMP388_STATUS, 1)[0] & 0x60) != 0x60:
                     utime.sleep_ms(5)
                 # 기압 및 온도 측정
                 pressure, temperature = self.read_pressure_temperature()
-                print(f"측정 완료 소요시간: {utime.ticks_diff(utime.ticks_ms(),start_time):.2f} ms")
+                print(f"측정 완료 소요시간: {utime.ticks_diff(utime.ticks_ms(),run_time):.2f} ms")
+                run_time = utime.ticks_ms()
 
                 if pressure and temperature:
                     # 고도 계산
@@ -354,7 +355,7 @@ class BMP388NormalMode:
 
                         # 상태 출력 (self.buffer_size 회 마다)
                         if measurement_count % self.buffer_size == 0:
-                            print(f"기압: {pressure:.2f} Pa, 온도: {temperature:.2f}°C, 고도: {smoothed_altitude:.2f}m, 소요시간: {utime.ticks_diff(utime.ticks_ms(),start_time):.2f} ms")
+                            print(f"기압: {pressure:.2f} Pa, 온도: {temperature:.2f}°C, 고도: {smoothed_altitude:.2f}m, 소요시간: {utime.ticks_diff(utime.ticks_ms(),run_time):.2f} ms")
 
                         # 고도 변화 확인 (버퍼가 충분히 찼을 때부터)
                         if len(self.altitude_buffer) >= self.buffer_size:
@@ -386,10 +387,11 @@ class BMP388NormalMode:
                 self.blink_led_pattern("normal")
 
                 # 대기 시간
-                utime.sleep_ms(20)  # 20ms 대기
+                utime.sleep_ms(180)  # ORD+20ms 대기
 
                 # 메모리 정리
-                if measurement_count % 50 == 0:
+                if measurement_count >= 50:
+                    measurement_count = 0
                     gc.collect()
 
         except KeyboardInterrupt:
