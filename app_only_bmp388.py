@@ -262,11 +262,10 @@ class BMP388NormalMode:
             if not hasattr(self, 'log_buffer') and self.log_buffer is None:
                 self.log_buffer = []
 
-            # 10개 데이터마다 파일에 기록 (전력 절약)
-            if len(self.log_buffer) >= 10:
-                with open("tower_log.csv", "a") as f:
-                    f.writelines(self.log_buffer)
-                self.log_buffer = []
+            # 파일에 기록 (전력 절약)
+            with open("tower_log.csv", "a") as f:
+                f.write(self.log_buffer)
+            self.log_buffer = []
 
         except Exception as e:
             print(f"로그 기록 실패: {e}")
@@ -405,7 +404,7 @@ class BMP388NormalMode:
             if hasattr(self, 'log_buffer') and self.log_buffer:
                 try:
                     with open("tower_log.csv", "a") as f:
-                        f.writelines(self.log_buffer)
+                        f.write(self.log_buffer)
                 except IOError:
                     print("tower_log.csv 파일 작성 오류")
                     pass
