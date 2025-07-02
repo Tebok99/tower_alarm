@@ -29,6 +29,8 @@ class BMP388NormalMode:
         self.buffer_size = 5  # 이동평균을 위한 버퍼 크기
         self.altitude_change_threshold = 2.0  # 2m 고도 변화 임계값
         self.reference_altitude = None
+        self.reference_altitude_time = None
+        self.interval_check_altitude = 5000 # 5 seconds 고도변화 측정 주기
 
 
     def init_bmp388_normal_mode(self):
@@ -198,15 +200,24 @@ class BMP388NormalMode:
         """고도 변화 체크"""
         if self.reference_altitude is None:
             self.reference_altitude = current_altitude
+            self.reference_altitude_time = utime.ticks_ms()
             return False
 
         altitude_change = abs(current_altitude - self.reference_altitude)
 
+        current_time = utime.ticks_ms()
         if altitude_change >= self.altitude_change_threshold:
             print(f"고도 변화 감지: {altitude_change:.2f}m")
             # 기준 고도 업데이트
             self.reference_altitude = current_altitude
+            self.reference_altitude_time = current_time
             return True
+
+        # interval_check_altitude (ms) 경과 후 reference_altitude 설정
+        if utime.ticks_diff(current_time, self.reference_altitude_time) >= self.interval_check_altitude:
+            print(f"고도 변화 측정 주기 {self.interval_check_altitude/1000}초 경과")
+            self.reference_altitude = current_altitude
+            self.reference_altitude_time = current_time
 
         return False
 
@@ -247,7 +258,7 @@ class BMP388NormalMode:
     def log_data(self):
         """데이터 로그 기록 (전력 절약을 위해 주기적으로만)"""
         try:
-            if not hasattr(self, 'log_buffer') and not self.log_buffer:
+            if not hasattr(self, 'log_buffer') and self.log_buffer is None:
                 self.log_buffer = []
 
             # 10개 데이터마다 파일에 기록 (전력 절약)
@@ -361,11 +372,10 @@ class BMP388NormalMode:
                                 print("(가상)오디오 재생.")
 
                                 # 로그에 이벤트 기록
-                                current_time = utime.ticks_ms()
-                                if not hasattr(self, 'log_buffer') and self.log_buffer:
+                                if not hasattr(self, 'log_buffer') and self.log_buffer is None:
                                     self.log_buffer = []
                                 self.log_buffer.append(
-                                    f"{current_time},{pressure:.2f},{temperature:.2f},{smoothed_altitude:.2f}\n")
+                                    f"{utime.ticks_ms()},{pressure:.2f},{temperature:.2f},{smoothed_altitude:.2f}\n")
 
                         # 주기적 로그 기록 (1분마다)
                         current_time = utime.ticks_ms()

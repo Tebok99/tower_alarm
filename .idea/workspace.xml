@@ -18,7 +18,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="checking run-time edited.">
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="logging edited.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app_only_bmp388.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_bmp388.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,28 +68,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;newDevelopment&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/DevCode/tower_alarm_new&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "newDevelopment",
+    "last_opened_file_path": "E:/DevCode/tower_alarm_new",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "ml.llm.LLMThirdPartyAiProvidersConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\DevCode\tower_alarm_new" />
@@ -431,7 +432,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751420809410</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="logging edited.">
+      <option name="closed" value="true" />
+      <created>1751430191493</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1751430191493</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,7 +488,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures." />
     <MESSAGE value="Refactor BMP-280 implementation for improved efficiency and clarity.&#10;&#10;- Simplified temperature and pressure calculations by removing redundant checks.&#10;- Eliminated unused attributes for cleaner code.&#10;- Adjusted comments for better readability." />
     <MESSAGE value="Fix bitwise operation logic in BMP-280 `_write_bits` method." />
     <MESSAGE value="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness." />
@@ -504,7 +512,8 @@
     <MESSAGE value="time stamp added" />
     <MESSAGE value="time stanby (ODR) edited" />
     <MESSAGE value="checking run-time edited." />
-    <option name="LAST_COMMIT_MESSAGE" value="checking run-time edited." />
+    <MESSAGE value="logging edited." />
+    <option name="LAST_COMMIT_MESSAGE" value="logging edited." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
