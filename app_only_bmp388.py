@@ -340,7 +340,6 @@ class BMP388NormalMode:
                 # 기압 및 온도 측정
                 pressure, temperature = self.read_pressure_temperature()
                 print(f"측정 완료 소요시간: {utime.ticks_diff(utime.ticks_ms(),run_time):.2f} ms")
-                run_time = utime.ticks_ms()
 
                 if pressure and temperature:
                     # 고도 계산
@@ -385,6 +384,7 @@ class BMP388NormalMode:
                     self.blink_led_pattern("init_error")
 
                 self.blink_led_pattern("normal")
+                run_time = utime.ticks_ms()
 
                 # 대기 시간
                 utime.sleep_ms(180)  # ORD+20ms 대기
