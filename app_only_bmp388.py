@@ -26,7 +26,7 @@ class BMP388NormalMode:
         # 고도 계산 관련
         self.sea_level_pressure = 101325.0  # 해수면 기압 (Pa)
         self.altitude_buffer = []
-        self.buffer_size = 10  # 이동평균을 위한 버퍼 크기
+        self.buffer_size = 5  # 이동평균을 위한 버퍼 크기
         self.altitude_change_threshold = 2.0  # 2m 고도 변화 임계값
         self.reference_altitude = None
 
@@ -51,8 +51,8 @@ class BMP388NormalMode:
             osr = 0x0C  # 00_001_100
             self.i2c.writeto_mem(self.BMP388_ADDR, 0x1C, bytes([osr]))
 
-            # odr = 011 (40ms standby)
-            odr = 0x03  # 000_00011
+            # odr = 00101 (160ms standby)
+            odr = 0x05  # 000_00101
             self.i2c.writeto_mem(self.BMP388_ADDR, 0x1D, bytes([odr]))
 
             # filter = 100 (IIR coeff 15)
@@ -216,16 +216,16 @@ class BMP388NormalMode:
             # 초기화 성공: 3번 짧게 깜빡
             for _ in range(3):
                 self.led.on()
-                utime.sleep(0.1)
+                utime.sleep_ms(100)
                 self.led.off()
-                utime.sleep(0.1)
+                utime.sleep_ms(100)
         elif pattern_type == "init_error":
             # 초기화 실패: 5번 빠르게 깜빡
             for _ in range(5):
                 self.led.on()
-                utime.sleep(0.05)
+                utime.sleep_ms(50)
                 self.led.off()
-                utime.sleep(0.05)
+                utime.sleep_ms(50)
         elif pattern_type == "measuring":
             # 측정 중: LED 켜기
             self.led.on()
@@ -233,9 +233,9 @@ class BMP388NormalMode:
             # 고도 변화 감지: 길게 3번 깜빡
             for _ in range(3):
                 self.led.on()
-                utime.sleep(0.3)
+                utime.sleep_ms(300)
                 self.led.off()
-                utime.sleep(0.2)
+                utime.sleep_ms(200)
         elif pattern_type == "normal":
             # 정상 동작: LED 끄기
             self.led.off()
@@ -275,7 +275,7 @@ class BMP388NormalMode:
             if pressure:
                 pressure_samples.append(pressure)
                 print(f"보정 샘플 {i + 1}/{samples}: {pressure:.2f} Pa")
-            utime.sleep(0.5)  # 500ms 간격
+            utime.sleep_ms(100)  # 100ms 간격
 
         if pressure_samples:
             self.sea_level_pressure = sum(pressure_samples) / len(pressure_samples)
@@ -352,8 +352,8 @@ class BMP388NormalMode:
 
                         measurement_count += 1
 
-                        # 상태 출력 (10회마다)
-                        if measurement_count % 10 == 0:
+                        # 상태 출력 (self.buffer_size 회 마다)
+                        if measurement_count % self.buffer_size == 0:
                             print(f"기압: {pressure:.2f} Pa, 온도: {temperature:.2f}°C, 고도: {smoothed_altitude:.2f}m, 소요시간: {utime.ticks_diff(utime.ticks_ms(),start_time):.2f} ms")
 
                         # 고도 변화 확인 (버퍼가 충분히 찼을 때부터)
@@ -386,7 +386,7 @@ class BMP388NormalMode:
                 self.blink_led_pattern("normal")
 
                 # 대기 시간
-                utime.sleep(0.5)  # 500ms 대기
+                utime.sleep_ms(20)  # 20ms 대기
 
                 # 메모리 정리
                 if measurement_count % 50 == 0:
