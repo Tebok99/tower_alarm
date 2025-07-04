@@ -1,3 +1,5 @@
+# app for only BMP280 Normal Mode
+# 타워 알람 시스템 (BMP280 Normal Mode 전용)
 import machine
 import utime
 from machine import Pin, SoftI2C
