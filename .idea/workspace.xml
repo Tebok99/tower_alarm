@@ -18,7 +18,14 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="log_data method error correction." />
+=======
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="log_buffer property correction.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_only_bmp388.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_bmp388.py" afterDir="false" />
+    </list>
+>>>>>>> 846f2f0095d353e6cc6e4c11781e9bdfff24ee1c
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -453,6 +460,7 @@
       <option name="project" value="LOCAL" />
       <updated>1751451706028</updated>
     </task>
+<<<<<<< HEAD
     <task id="LOCAL-00045" summary="log_data method error correction.">
       <option name="closed" value="true" />
       <created>1751452721457</created>
@@ -462,6 +470,9 @@
       <updated>1751452721457</updated>
     </task>
     <option name="localTasksCounter" value="46" />
+=======
+    <option name="localTasksCounter" value="45" />
+>>>>>>> 846f2f0095d353e6cc6e4c11781e9bdfff24ee1c
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -509,6 +520,10 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+<<<<<<< HEAD
+=======
+    <MESSAGE value="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness." />
+>>>>>>> 846f2f0095d353e6cc6e4c11781e9bdfff24ee1c
     <MESSAGE value="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency." />
     <MESSAGE value="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`." />
     <MESSAGE value="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries." />
@@ -533,8 +548,12 @@
     <MESSAGE value="logging edited." />
     <MESSAGE value="interval time setting for check_altitude_change." />
     <MESSAGE value="log_buffer property correction." />
+<<<<<<< HEAD
     <MESSAGE value="log_data method error correction." />
     <option name="LAST_COMMIT_MESSAGE" value="log_data method error correction." />
+=======
+    <option name="LAST_COMMIT_MESSAGE" value="log_buffer property correction." />
+>>>>>>> 846f2f0095d353e6cc6e4c11781e9bdfff24ee1c
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
