@@ -24,5 +24,5 @@ if is_usb_powered():
     # USB 전원 시에는 app.py를 자동 실행하지 않음
 else:
     print("외부 배터리 전원 - 자동 실행 모드")
-    # 외부 전원 시에만 app.py 자동 실행
-    exec(open('app.py').read())
+    # 외부 전원 시에만 app_only_bmp388.py 자동 실행
+    exec(open('app_only_bmp388.py').read())
