@@ -298,16 +298,16 @@ class BMP388NormalMode:
             return
 
         # # Audio Player 초기화 추가
-        # try:
-        #     self.audio_player = AudioPlayer()
-        #     if self.audio_player and self.audio_player.init():
-        #         print("I2S Audio Player 초기화 성공")
-        #     else:
-        #         print("I2S Audio Player 초기화 실패")
-        #         return
-        # except Exception as e:
-        #     print(f"I2S Audio Player 초기화 중 예외: {e}")
-        #     return
+        try:
+            self.audio_player = AudioPlayer()
+            if self.audio_player and self.audio_player.init():
+                print("I2S Audio Player 초기화 성공")
+            else:
+                print("I2S Audio Player 초기화 실패")
+                return
+        except Exception as e:
+            print(f"I2S Audio Player 초기화 중 예외: {e}")
+            return
 
         # 초기화 완료 표시
         self.blink_led_pattern("init_success")
@@ -363,8 +363,8 @@ class BMP388NormalMode:
                                 self.blink_led_pattern("altitude_change")
 
                                 # 알람 소리 재생
-                                # self.audio_player.play_wav()  # wav 폴더의 wav file 재생
-                                print("(가상)오디오 재생.")
+                                # print("(가상)오디오 재생.")
+                                self.audio_player.play_wav()  # wav 폴더의 wav file 재생
 
                                 # 로그에 이벤트 기록
                                 if self.log_buffer is not None:
