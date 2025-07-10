@@ -1,7 +1,7 @@
 # app for only BMP388 Normal Mode
 # 타워 알람 시스템 (BMP388 Normal Mode 전용)
 import utime
-from machine import Pin, SoftI2C
+from machine import Pin, I2C
 import gc
 from audio_player import AudioPlayer
 
@@ -9,7 +9,7 @@ from audio_player import AudioPlayer
 class BMP388NormalMode:
     def __init__(self):
         # I2C 설정
-        self.i2c = SoftI2C(sda=Pin(6), scl=Pin(7), freq=100000)
+        self.i2c = I2C(1, sda=Pin(2), scl=Pin(3), freq=100000)
 
         # BMP388 설정
         self.BMP388_ADDR = 0x77
