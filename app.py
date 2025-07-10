@@ -200,13 +200,15 @@ class BMP388NormalMode:
 
     def check_altitude_change(self, current_altitude):
         """고도 변화 체크"""
-        print(f"현재 고도: {current_altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
         if self.reference_altitude is None:
             self.reference_altitude = current_altitude
             self.reference_altitude_time = utime.ticks_ms()
+            print(f"현재 고도: {current_altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
+
             return False
 
         altitude_change = abs(current_altitude - self.reference_altitude)
+        print(f"고도 차이: {altitude_change:.2f}m, 현재 고도: {current_altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
 
         current_time = utime.ticks_ms()
         if altitude_change >= self.altitude_change_threshold:
