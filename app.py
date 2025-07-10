@@ -200,6 +200,7 @@ class BMP388NormalMode:
 
     def check_altitude_change(self, current_altitude):
         """고도 변화 체크"""
+        print(f"현재 고도: {current_altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
         if self.reference_altitude is None:
             self.reference_altitude = current_altitude
             self.reference_altitude_time = utime.ticks_ms()
