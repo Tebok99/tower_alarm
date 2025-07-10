@@ -413,13 +413,9 @@ class BMP388NormalMode:
                 self.led.off()
             if hasattr(self, 'audio_player'):
                 self.audio_player.deinit()
-            # I2C 정리
-            if hasattr(self, 'i2c'):
-                try:
-                    self.i2c.deinit()
-                    print("I2C 리소스 해제 완료")
-                except Exception as e:
-                    print(f"I2C 해제 중 오류: {e}")
+
+            print("타워 알람 시스템 종료")
+    
 
 # 메인 실행
 if __name__ == "__main__":
