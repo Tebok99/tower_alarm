@@ -262,7 +262,7 @@ class BMP388NormalMode:
             if self.log_buffer is not None:
                 # 파일에 기록 (전력 절약)
                 with open("tower_log.csv", "a") as f:
-                    f.write(self.log_buffer)
+                    f.writelines(self.log_buffer)
 
             self.log_buffer = []
 
@@ -403,7 +403,7 @@ class BMP388NormalMode:
             if hasattr(self, 'log_buffer') and self.log_buffer:
                 try:
                     with open("tower_log.csv", "a") as f:
-                        f.write(self.log_buffer)
+                        f.writelines(self.log_buffer)
                 except IOError:
                     print("tower_log.csv 파일 작성 오류")
             # LED 및 오디오 핀 정리
