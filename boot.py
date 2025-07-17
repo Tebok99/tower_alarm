@@ -22,7 +22,7 @@ if is_dev_mode:
 else:
     print("데이터 연결 없음 - 자동 실행 모드")
     try:
-        import app_only_bmp388
-        app_only_bmp388.main()
+        import app_only_bmp388_v2
+        app_only_bmp388_v2.main()
     except Exception as e:
         print(f"자동 실행 실패: {e}")

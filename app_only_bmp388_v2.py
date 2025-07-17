@@ -25,8 +25,8 @@ class BMP388NormalMode:
 
         # 고도 계산 관련
         self.sea_level_pressure = 101325.0  # 해수면 기압 (Pa)
-        self.altitude_buffer = []
-        self.buffer_size = 5  # 이동평균을 위한 버퍼 크기
+        # self.altitude_buffer = []
+        # self.buffer_size = 5  # 이동평균을 위한 버퍼 크기
         self.altitude_change_threshold = 1.5  # 고도 변화 임계값
         self.reference_altitude = None
         self.reference_altitude_time = None
@@ -51,12 +51,12 @@ class BMP388NormalMode:
             # 보정 계수 읽기
             self.read_calibration_data()
 
-            # osrs_t = 1 (×2), osrs_p = 4 (×16 standard)
-            osr = 0x0C  # 00_001_100
+            # osrs_t = 1 (×2), osrs_p = 3 (×8 standard)
+            osr = 0x0B  # 00_001_011
             self.i2c.writeto_mem(self.BMP388_ADDR, 0x1C, bytes([osr]))
 
-            # odr = 00101 (160ms standby)
-            odr = 0x05  # 000_00101
+            # odr = 00111 (640ms standby)
+            odr = 0x07  # 000_00111
             self.i2c.writeto_mem(self.BMP388_ADDR, 0x1D, bytes([odr]))
 
             # filter = 100 (IIR coeff 15)
@@ -177,7 +177,6 @@ class BMP388NormalMode:
         pressure = partial_out1 + partial_out2 + partial_data4
         return pressure
 
-
     def pressure_to_altitude(self, pressure):
         """기압을 고도로 변환 (국제표준대기 공식)"""
         if pressure <= 0:
@@ -186,43 +185,17 @@ class BMP388NormalMode:
         altitude = 44330.0 * (1.0 - (pressure / self.sea_level_pressure)**0.190263)
         return altitude
 
-    def update_altitude_buffer(self, altitude):
-        """고도 버퍼 업데이트 (이동평균용)"""
-        self.altitude_buffer.append(altitude)
-        if len(self.altitude_buffer) > self.buffer_size:
-            self.altitude_buffer.pop(0)
-
-    def get_smoothed_altitude(self):
-        """이동평균으로 부드러운 고도값 계산"""
-        if not self.altitude_buffer:
-            return None
-        return sum(self.altitude_buffer) / len(self.altitude_buffer)
-
     def check_altitude_change(self, current_altitude):
         """고도 변화 체크"""
         if self.reference_altitude is None:
-            self.reference_altitude = current_altitude
-            self.reference_altitude_time = utime.ticks_ms()
-            print(f"현재 고도: {current_altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
-
             return False
 
         altitude_change = abs(current_altitude - self.reference_altitude)
         # print(f"고도 차이: {altitude_change:.2f}m, 현재 고도: {current_altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
 
-        current_time = utime.ticks_ms()
         if altitude_change >= self.altitude_change_threshold:
             print(f"고도 변화 감지: {altitude_change:.2f}m")
-            # 기준 고도 업데이트
-            self.reference_altitude = current_altitude
-            self.reference_altitude_time = current_time
             return True
-
-        # interval_check_altitude (ms) 경과 후 reference_altitude 설정
-        if utime.ticks_diff(current_time, self.reference_altitude_time) >= self.interval_check_altitude:
-            print(f"고도 변화 측정 주기 {self.interval_check_altitude/1000}초 경과")
-            self.reference_altitude = current_altitude
-            self.reference_altitude_time = current_time
 
         return False
 
@@ -269,23 +242,6 @@ class BMP388NormalMode:
         except Exception as e:
             print(f"로그 기록 실패: {e}")
 
-    def calibrate_sea_level_pressure(self, samples=20):
-        """해수면 기압 보정 (시작 시 현재 위치 기준)"""
-        print("해수면 기압 보정 중...")
-        pressure_samples = []
-
-        for i in range(samples):
-            pressure, temp = self.read_pressure_temperature()
-            if pressure:
-                pressure_samples.append(pressure)
-                print(f"보정 샘플 {i + 1}/{samples}: {pressure:.2f} Pa")
-            utime.sleep_ms(100)  # 100ms 간격
-
-        if pressure_samples:
-            self.sea_level_pressure = sum(pressure_samples) / len(pressure_samples)
-            print(f"해수면 기압 설정: {self.sea_level_pressure:.2f} Pa")
-            return True
-        return False
 
     def run(self):
         """메인 실행 루프"""
@@ -336,7 +292,7 @@ class BMP388NormalMode:
                 self.blink_led_pattern("measuring")
 
                 while (self.i2c.readfrom_mem(self.BMP388_ADDR, self.BMP388_STATUS, 1)[0] & 0x60) != 0x60:
-                    utime.sleep_ms(5)
+                    utime.sleep_ms(10)
                 # 기압 및 온도 측정
                 pressure, temperature = self.read_pressure_temperature()
                 # print(f"측정 완료 소요시간: {utime.ticks_diff(utime.ticks_ms(),run_time):.2f} ms")
@@ -346,28 +302,34 @@ class BMP388NormalMode:
                     altitude = self.pressure_to_altitude(pressure)
 
                     if altitude is not None:
-                        # 고도 버퍼 업데이트
-                        self.update_altitude_buffer(altitude)
-                        smoothed_altitude = self.get_smoothed_altitude()
-
                         measurement_count += 1
 
-                        # 상태 출력 (self.buffer_size 회 마다)
-                        if measurement_count % self.buffer_size == 0:
-                            print(f"기압: {pressure:.2f} Pa, 온도: {temperature:.2f}°C, 고도: {smoothed_altitude:.2f}m, 소요시간: {utime.ticks_diff(utime.ticks_ms(),run_time):.2f} ms")
+                        current_time = utime.ticks_ms()
+                        if self.reference_altitude_time is None:
+                            self.reference_altitude = altitude
+                            self.reference_altitude_time = current_time
+                            print(f"현재 고도: {altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
 
-                        # 고도 변화 확인 (버퍼가 충분히 찼을 때부터)
-                        if len(self.altitude_buffer) >= self.buffer_size:
-                            if self.check_altitude_change(smoothed_altitude):
-                                print(f"경고: {self.altitude_change_threshold:.1f}m 이상 고도 변화 감지!")
-                                self.blink_led_pattern("altitude_change")
+                        # interval_check_altitude (ms) 경과 후 reference_altitude 설정
+                        if utime.ticks_diff(current_time, self.reference_altitude_time) >= self.interval_check_altitude:
+                            print(f"고도 변화 측정 주기 {self.interval_check_altitude/1000}초 경과")
+                            self.reference_altitude = altitude
+                            self.reference_altitude_time = current_time
 
-                                # 알람 소리 재생
-                                # print("(가상)오디오 재생.")
-                                self.audio_player.play_wav()  # wav 폴더의 wav file 재생
+                        # 상태 출력
+                        print(f"기압: {pressure:.2f} Pa, 온도: {temperature:.2f}°C, 고도: {altitude:.2f}m, 소요시간: {utime.ticks_diff(utime.ticks_ms(),run_time):.2f} ms")
 
-                                # 로그에 이벤트 기록
-                                self.log_buffer.append(f"{utime.ticks_ms()},{pressure:.2f},{temperature:.2f},{smoothed_altitude:.2f}\n")
+                        # 고도 변화 확인
+                        if self.check_altitude_change(altitude):
+                            print(f"경고: {self.altitude_change_threshold:.1f}m 이상 고도 변화 감지!")
+                            self.blink_led_pattern("altitude_change")
+
+                            # 알람 소리 재생
+                            # print("(가상)오디오 재생.")
+                            self.audio_player.play_wav()  # wav 폴더의 wav file 재생
+
+                            # 로그에 이벤트 기록
+                            self.log_buffer.append(f"{utime.ticks_ms()},{pressure:.2f},{temperature:.2f},{altitude:.2f}\n")
 
                         # 주기적 로그 기록 (1분마다)
                         current_time = utime.ticks_ms()
@@ -383,7 +345,7 @@ class BMP388NormalMode:
                 run_time = utime.ticks_ms()
 
                 # 대기 시간
-                machine.lightsleep(180)  # ORD+20ms 대기
+                machine.lightsleep(650)  # ORD(640ms)+25ms 이내 pico대기
 
                 # 메모리 정리
                 if measurement_count >= 50:
