@@ -27,7 +27,7 @@ class BMP388NormalMode:
         self.sea_level_pressure = 101325.0  # 해수면 기압 (Pa)
         self.altitude_buffer = []
         self.buffer_size = 5  # 이동평균을 위한 버퍼 크기
-        self.altitude_change_threshold = 2.0  # 2m 고도 변화 임계값
+        self.altitude_change_threshold = 1.0  # 고도 변화 임계값
         self.reference_altitude = None
         self.reference_altitude_time = None
         self.interval_check_altitude = 5000 # 5 seconds 고도변화 측정 주기
@@ -208,7 +208,7 @@ class BMP388NormalMode:
             return False
 
         altitude_change = abs(current_altitude - self.reference_altitude)
-        print(f"고도 차이: {altitude_change:.2f}m, 현재 고도: {current_altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
+        # print(f"고도 차이: {altitude_change:.2f}m, 현재 고도: {current_altitude:.2f}m, 기준 고도: {self.reference_altitude:.2f}m")
 
         current_time = utime.ticks_ms()
         if altitude_change >= self.altitude_change_threshold:
@@ -339,7 +339,7 @@ class BMP388NormalMode:
                     utime.sleep_ms(5)
                 # 기압 및 온도 측정
                 pressure, temperature = self.read_pressure_temperature()
-                print(f"측정 완료 소요시간: {utime.ticks_diff(utime.ticks_ms(),run_time):.2f} ms")
+                # print(f"측정 완료 소요시간: {utime.ticks_diff(utime.ticks_ms(),run_time):.2f} ms")
 
                 if pressure and temperature:
                     # 고도 계산
@@ -359,7 +359,7 @@ class BMP388NormalMode:
                         # 고도 변화 확인 (버퍼가 충분히 찼을 때부터)
                         if len(self.altitude_buffer) >= self.buffer_size:
                             if self.check_altitude_change(smoothed_altitude):
-                                print("경고: 2m 이상 고도 변화 감지!")
+                                print(f"경고: {self.altitude_change_threshold:.1f}m 이상 고도 변화 감지!")
                                 self.blink_led_pattern("altitude_change")
 
                                 # 알람 소리 재생
@@ -385,7 +385,7 @@ class BMP388NormalMode:
                 run_time = utime.ticks_ms()
 
                 # 대기 시간
-                utime.sleep_ms(180)  # ORD+20ms 대기
+                machine.lightsleep(180)  # ORD+20ms 대기
 
                 # 메모리 정리
                 if measurement_count >= 50:
@@ -416,8 +416,11 @@ class BMP388NormalMode:
 
             print("타워 알람 시스템 종료")
     
+def main():
+    """애플리케이션 메인 실행 함수"""
+    tower_alarm = BMP388NormalMode()
+    tower_alarm.run()
 
 # 메인 실행
 if __name__ == "__main__":
-    tower_alarm = BMP388NormalMode()
-    tower_alarm.run()
+    main()
