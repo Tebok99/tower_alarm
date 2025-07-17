@@ -26,6 +26,6 @@ else:
     # 외부 전원 시에만 app_only_bmp388.py 자동 실행
     try:
         import app_only_bmp388_v2
-        app_only_bmp388_v2.main_()
+        app_only_bmp388_v2.main()
     except Exception as e:
         print(f"자동 실행 실패: {e}")
