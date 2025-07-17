@@ -1,21 +1,22 @@
-import machine
+import utime
 
-is_dev_mode = False
+# 기본적으로 '개발 모드'로 가정하고 시작 (Fail-Safe)
+is_dev_mode = True
 try:
-    # usb_cdc는 Pico/Pico W의 내장 모듈입니다.
-    # PC의 IDE는 이 모듈을 알지 못해 오류로 표시할 수 있지만, 실제 기기에서는 정상 동작합니다.
-    # try...except로 감싸 IDE의 오류 표시를 막고, 보다 안정적인 코드를 만듭니다.
     import usb_cdc
 
-    # usb_cdc.data 객체의 존재 여부로 터미널 연결을 확인하는 것이 더 안정적입니다.
-    # 터미널이 연결되지 않으면 usb_cdc.data는 None이 됩니다.
-    if usb_cdc.data:
-        is_dev_mode = True
-except ImportError:
-    # usb_cdc 모듈이 없는 보드이거나, IDE에서 정적 분석을 하는 경우 오류 없이 통과합니다.
-    pass
+    # Thonny와 같은 IDE가 USB 시리얼 연결을 설정할 시간을 주기 위해 잠시 대기합니다.
+    utime.sleep_ms(1000)
 
-# USB 데이터 통신(터미널) 연결 여부에 따른 분기
+    # 데이터 연결이 없다는 것이 '확실할' 때만 '자동 실행 모드'로 전환합니다.
+    if not usb_cdc.data:
+        is_dev_mode = False
+
+except ImportError:
+    # usb_cdc 모듈 자체가 없는 환경은 데이터 연결을 확인할 수 없으므로
+    # '자동 실행 모드'로 간주합니다.
+    is_dev_mode = False
+
 if is_dev_mode:
     print("USB 데이터 연결됨 - 개발 모드 (자동 실행 건너뜀)")
 else:
