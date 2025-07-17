@@ -27,7 +27,7 @@ class BMP388NormalMode:
         self.sea_level_pressure = 101325.0  # 해수면 기압 (Pa)
         self.altitude_buffer = []
         self.buffer_size = 5  # 이동평균을 위한 버퍼 크기
-        self.altitude_change_threshold = 1.5  # 고도 변화 임계값
+        self.altitude_change_threshold = 1.0  # 고도 변화 임계값
         self.reference_altitude = None
         self.reference_altitude_time = None
         self.interval_check_altitude = 5000 # 5 seconds 고도변화 측정 주기
