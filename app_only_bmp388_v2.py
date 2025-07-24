@@ -27,7 +27,7 @@ class BMP388NormalMode:
         self.sea_level_pressure = 101325.0  # 해수면 기압 (Pa)
         # self.altitude_buffer = []
         # self.buffer_size = 5  # 이동평균을 위한 버퍼 크기
-        self.altitude_change_threshold = 1.0  # 고도 변화 임계값
+        self.altitude_change_threshold = 0.7  # 고도 변화 임계값
         self.reference_altitude = None
         self.reference_altitude_time = None
         self.interval_check_altitude = 5000 # 5 seconds 고도변화 측정 주기
@@ -235,7 +235,8 @@ class BMP388NormalMode:
             if self.log_buffer is not None:
                 # 파일에 기록 (전력 절약)
                 with open("tower_log.csv", "a") as f:
-                    f.writelines(self.log_buffer)
+                    for line in self.log_buffer:
+                        f.write(line)
 
             self.log_buffer = []
 
@@ -365,7 +366,8 @@ class BMP388NormalMode:
             if hasattr(self, 'log_buffer') and self.log_buffer:
                 try:
                     with open("tower_log.csv", "a") as f:
-                        f.writelines(self.log_buffer)
+                        for line in self.log_buffer:
+                            f.write(line)
                 except IOError:
                     print("tower_log.csv 파일 작성 오류")
             # LED 및 오디오 핀 정리
