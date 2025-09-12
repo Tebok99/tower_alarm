@@ -1,113 +1,154 @@
 # -*- coding: utf-8 -*-
+import ustruct
 import machine
-import utime
-import struct
-import config # 설정값 가져오기
+import config
 
-_log_func = None # 로깅 콜백 함수
+class AudioPlayer:
+    def __init__(self, log_callback=None):
+        self._log_func = log_callback
+        self._i2s = None
+        self.is_initialized = False
+        self.wav_info = None
+        self.data_start_position = 44
+        # 핀 객체를 멤버로 관리
+        self.pin_sck = machine.Pin(config.PIN_I2S_SCK, machine.Pin.OUT)
+        self.pin_ws  = machine.Pin(config.PIN_I2S_WS,  machine.Pin.OUT)
+        self.pin_sd  = machine.Pin(config.PIN_I2S_SD,  machine.Pin.OUT)
 
-def _log(message):
-    """로깅 함수 호출 (설정된 경우)"""
-    if _log_func:
-        _log_func(f"[AudioPlayer] {message}")
-    else:
-        print(f"[AudioPlayer] {message}") # 콜백 없으면 콘솔 출력
+    def _log(self, message):
+        if self._log_func:
+            self._log_func(f"[AudioPlayer] {message}")
+        else:
+            print(f"[AudioPlayer] {message}")
 
-def _find_wav_data_chunk(filepath):
-    """WAV 파일에서 data 청크 정보 찾기 (내부 함수)"""
-    sample_rate = bits_per_sample = num_channels = data_size = data_start = None
-    try:
-        with open(filepath, "rb") as f:
-            riff_header = f.read(12)
-            if riff_header[0:4] != b'RIFF' or riff_header[8:12] != b'WAVE':
-                raise ValueError("Invalid WAV file: RIFF/WAVE header not found.")
-            while True:
-                chunk_header = f.read(8)
-                if len(chunk_header) < 8: break
-                chunk_id = chunk_header[0:4]
-                chunk_size = struct.unpack('<I', chunk_header[4:8])[0]
-                if chunk_id == b'fmt ':
-                    if chunk_size < 16: raise ValueError("Invalid WAV file: fmt chunk too small.")
-                    fmt_data = f.read(chunk_size)
-                    audio_format = struct.unpack('<H', fmt_data[0:2])[0]
-                    if audio_format != 1: raise ValueError("Unsupported WAV format: Only PCM is supported.")
-                    num_channels = struct.unpack('<H', fmt_data[2:4])[0]
-                    sample_rate = struct.unpack('<I', fmt_data[4:8])[0]
-                    bits_per_sample = struct.unpack('<H', fmt_data[14:16])[0]
-                elif chunk_id == b'data':
-                    data_size = chunk_size
-                    data_start = f.tell()
-                    break
-                else:
-                    f.seek(chunk_size, 1)
-            if not all([sample_rate, bits_per_sample, num_channels, data_size is not None, data_start is not None]):
-                raise ValueError("Invalid WAV file: Required chunks (fmt, data) not found or incomplete.")
-            return sample_rate, bits_per_sample, num_channels, data_size, data_start
-    except OSError as e:
-        _log(f"WAV 파일 열기 오류: {e}")
-        raise e
-    except ValueError as e:
-        _log(f"WAV 파일 분석 오류: {e}")
-        raise e
+    def init(self):
+        self.is_initialized = False
 
-def play_wav(log_callback=None):
-    """설정된 WAV 파일을 I2S로 재생하고 릴레이 제어"""
-    global _log_func
-    _log_func = log_callback
-    _log("WAV 재생 시도...")
+        try:
+            with open(config.WAV_FILE_PATH, 'rb') as wav_file:
+                header = wav_file.read(44)
+                if len(header) != 44:
+                    self._log("WAV 헤더 읽기 실패")
+                    return False
 
-    temp_i2s = None # 지역 I2S 객체
+                self.wav_info = self.parse_wav_header(header)
+                if self.wav_info is None:
+                    return False
 
-    try:
-        # WAV 정보 얻기
-        filepath = config.WAV_FILE_PATH
-        sample_rate, bits_per_sample, num_channels, data_size, data_start = _find_wav_data_chunk(filepath)
-        _log(f"WAV 정보: Rate={sample_rate}, Bits={bits_per_sample}, Chan={num_channels}, Size={data_size}")
+                if self.wav_info['format'] != 1:
+                    self._log(f"지원하지 않는 오디오 포맷: {self.wav_info['format']}")
+                    return False
+                if self.wav_info['bits_per_sample'] != 16:
+                    self._log("16비트 오디오만 지원")
+                    return False
+                if self.wav_info['channels'] != 1:
+                    self._log("모노 오디오만 지원")
+                    return False
 
-        if bits_per_sample != 16: raise ValueError("16비트 오디오만 지원")
-        if num_channels != 1: raise ValueError("모노 오디오만 지원")
+                self.data_start_position = wav_file.tell()
+                self._log("WAV 파일 유효성 검사 완료.")
 
-        # I2S 초기화
-        temp_i2s = machine.I2S(
-            config.I2S_ID,
-            sck=machine.Pin(config.PIN_I2S_SCK),
-            ws=machine.Pin(config.PIN_I2S_WS),
-            sd=machine.Pin(config.PIN_I2S_SD),
-            mode=machine.I2S.TX, bits=16, format=machine.I2S.MONO,
-            rate=sample_rate, ibuf=config.I2S_BUFFER_SIZE
-        )
+        except OSError as e:
+            self._log(f"WAV 파일 읽기 오류: {e}")
+            return False
 
-        # 데이터 스트리밍
-        bytes_written = 0
-        with open(filepath, "rb") as wav_file:
-            wav_file.seek(data_start)
-            remaining_data = data_size
-            buffer = bytearray(config.I2S_BUFFER_SIZE)
-            while remaining_data > 0:
-                read_size = min(config.I2S_BUFFER_SIZE, remaining_data)
-                num_read = wav_file.readinto(buffer, read_size)
-                if num_read == 0: break
-                try:
-                    written = temp_i2s.write(memoryview(buffer)[:num_read])
-                    bytes_written += written
-                    if written != num_read:
-                        _log(f"I2S 쓰기 불완전: {written}/{num_read}")
-                        utime.sleep_ms(5)
-                except Exception as e:
-                    _log(f"I2S 쓰기 중 오류: {e}")
-                    break # 쓰기 오류 시 중단
-                remaining_data -= num_read
-            _log(f"WAV 데이터 쓰기 완료: {bytes_written}/{data_size} bytes")
-            utime.sleep_ms(200) # 버퍼 비우기 대기
+        try:
+            self._i2s = machine.I2S(
+                config.I2S_ID,
+                sck=self.pin_sck,
+                ws=self.pin_ws,
+                sd=self.pin_sd,
+                mode=machine.I2S.TX,
+                bits=16,
+                format=machine.I2S.MONO,
+                rate=self.wav_info['sample_rate'],
+                ibuf=config.I2S_BUFFER_SIZE
+            )
+            self._log("I2S 오디오 초기화 완료")
+            self.is_initialized = True
+            return True
+        except Exception as e:
+            self._log(f"I2S 초기화 중 오류: {e}")
+            return False
 
-    except Exception as e:
-        _log(f"WAV 재생 과정 중 오류: {e}")
+    def parse_wav_header(self, header):
+        try:
+            riff_id = header[0:4]
+            chunk_size = ustruct.unpack('<I', header[4:8])[0]
+            format_id = header[8:12]
+            fmt_id = header[12:16]
+            fmt_size = ustruct.unpack('<I', header[16:20])[0]
+            audio_format = ustruct.unpack('<H', header[20:22])[0]
+            num_channels = ustruct.unpack('<H', header[22:24])[0]
+            sample_rate = ustruct.unpack('<I', header[24:28])[0]
+            byte_rate = ustruct.unpack('<I', header[28:32])[0]
+            block_align = ustruct.unpack('<H', header[32:34])[0]
+            bits_per_sample = ustruct.unpack('<H', header[34:36])[0]
+            data_id = header[36:40]
+            data_size = ustruct.unpack('<I', header[40:44])[0]
 
-    finally:
-        # 리소스 정리
-        if temp_i2s:
+            self._log(f"WAV 헤더 정보:")
+            self._log(f"  포맷: {audio_format} (1=PCM)")
+            self._log(f"  채널: {num_channels}")
+            self._log(f"  샘플링 레이트: {sample_rate} Hz")
+            self._log(f"  비트 레이트: {byte_rate} bps")
+            self._log(f"  비트 심도: {bits_per_sample} bit")
+            self._log(f"  데이터 크기: {data_size} bytes")
+
+            return {
+                'format': audio_format,
+                'channels': num_channels,
+                'sample_rate': sample_rate,
+                'bits_per_sample': bits_per_sample,
+                'data_size': data_size
+            }
+        except Exception as e:
+            self._log(f"WAV 헤더 파싱 오류: {e}")
+            return None
+
+    def play_wav(self):
+        if not self.is_initialized:
+            self._log("I2S가 초기화되지 않았습니다.")
+            return False
+
+        self._log("오디오 재생 시작")
+
+        try:
+            with open(config.WAV_FILE_PATH, 'rb') as wav_file:
+                wav_file.seek(self.data_start_position)
+                bytes_played = 0
+                total_bytes = self.wav_info['data_size']
+
+                while bytes_played < total_bytes:
+                    remaining = min(config.I2S_BUFFER_SIZE, total_bytes - bytes_played)
+                    buffer = wav_file.read(remaining)
+
+                    if len(buffer) == 0:
+                        break
+
+                    self._i2s.write(buffer)
+                    bytes_played += len(buffer)
+
+            self._log(f"오디오 재생 완료 ({bytes_played}/{total_bytes} bytes)")
+            return True
+
+        except Exception as e:
+            self._log(f"오디오 재생 중 오류: {e}")
+            return False
+
+    def deinit(self):
+        """I2S 및 핀 리소스 해제"""
+        if self._i2s:
             try:
-                temp_i2s.deinit()
-                _log("I2S 리소스 해제")
-            except Exception as e: _log(f"I2S 해제 중 오류: {e}")
-        _log("WAV 재생 종료/중단")
+                self._i2s.deinit()
+                self._log("I2S 리소스 해제 완료")
+            except Exception as e:
+                self._log(f"I2S 해제 중 오류: {e}")
+            self._i2s = None
+        # 핀을 안전하게 입력모드로 변경
+        for pin in [self.pin_sck, self.pin_ws, self.pin_sd]:
+            try:
+                pin.init(mode=machine.Pin.IN)
+            except Exception as e:
+                self._log(f"핀 해제 중 오류: {e}")
+        self.is_initialized = False

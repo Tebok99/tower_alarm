@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BackendCodeEditorMiscSettings">
+    <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
+  </component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="log_data method error correction." />
+=======
+    <list default="true" id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="log_buffer property correction.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_only_bmp388.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_only_bmp388.py" afterDir="false" />
+    </list>
+>>>>>>> 846f2f0095d353e6cc6e4c11781e9bdfff24ee1c
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="development" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Tebok99&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Tebok99/tower_alarm.git&quot;,
+    &quot;accountId&quot;: &quot;8020cf46-8b4f-4f2f-af47-f366a0b7101e&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2yywKgOwXYFeKpIJ7xpv4IYYdoz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;newDevelopment&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/DevCode/tower_alarm_new&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMThirdPartyAiProvidersConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\DevCode\tower_alarm_new" />
+    </key>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="7189038d-225f-45b5-bf48-1f6b19493e31" name="변경" comment="" />
+      <created>1750820058186</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750820058186</updated>
+      <workItem from="1750820059307" duration="11631000" />
+    </task>
+    <task id="LOCAL-00001" summary="Remove `.vscode/settings.json` and `.idx/dev.nix` to clean up unused configuration files.">
+      <option name="closed" value="true" />
+      <created>1750820550326</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1750820550326</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Remove shelved changes to `.vscode/settings.json` for cleanup.">
+      <option name="closed" value="true" />
+      <created>1750820623867</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1750820623867</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Remove unused features and improve code readability.&#10;&#10;- Eliminated low battery checking logic and ADC-related functionality.&#10;- Adjusted initialization and runtime error handling for sensors.&#10;- Refined comments and modularized code for better maintainability.">
+      <option name="closed" value="true" />
+      <created>1750840377852</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1750840377852</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add IntelliJ IDEA project configuration files to version control&#10;&#10;- `.idea/shelf/________.xml`: Stores unshelved changes metadata.&#10;- `.idea/codeStyles/codeStyleConfig.xml`: Sets default project code style.&#10;- `.idea/editor.xml`: Configures editor inspection settings.">
+      <option name="closed" value="true" />
+      <created>1750931917556</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1750931917556</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Refactor `boot.py` to improve USB power detection logic.&#10;&#10;- Added `is_usb_powered()` function utilizing the VBUS sense pin for USB power detection.&#10;- Differentiated behavior based on power source: USB vs. external battery.&#10;- Improved fallback logic for boards without VBUS pins.">
+      <option name="closed" value="true" />
+      <created>1750932748546</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1750932748546</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Update `.idea/workspace.xml` and adjust `boot.py` execution logic. &#10;&#10;- Modified `.idea/workspace.xml` for updated IntelliJ IDEA task details.  &#10;- Adjusted `boot.py` to execute `app.py` directly for external battery power scenarios.">
+      <option name="closed" value="true" />
+      <created>1750934272730</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1750934272730</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Refactor and enhance BMP-280 initialization and error handling.&#10;&#10;- Added device readiness check during initialization with a soft reset.&#10;- Removed unused test calibration and data loading methods.&#10;- Improved error handling in `pressure_sensor.py` to ensure proper fallback to sleep mode on failures.">
+      <option name="closed" value="true" />
+      <created>1750968930830</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1750968930830</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Refactor BMP-280 implementation for improved efficiency and clarity.&#10;&#10;- Simplified temperature and pressure calculations by removing redundant checks.&#10;- Eliminated unused attributes for cleaner code.&#10;- Adjusted comments for better readability.">
+      <option name="closed" value="true" />
+      <created>1750971833153</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1750971833153</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fix bitwise operation logic in BMP-280 `_write_bits` method.">
+      <option name="closed" value="true" />
+      <created>1750975323420</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1750975323420</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness.">
+      <option name="closed" value="true" />
+      <created>1750976460498</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1750976460498</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency.">
+      <option name="closed" value="true" />
+      <created>1750986728691</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1750986728691</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`.">
+      <option name="closed" value="true" />
+      <created>1750987919892</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1750987919892</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries.">
+      <option name="closed" value="true" />
+      <created>1750988828286</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1750988828286</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries.">
+      <option name="closed" value="true" />
+      <created>1750992871948</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1750992871948</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Refactor `pressure_sensor.py` for improved timeout handling and clarity&#10;&#10;- Replaced `max_wait_time` with a fixed `timeout` variable for consistency.&#10;- Adjusted actual wait time logging for improved accuracy.&#10;- Ensured type conversion in altitude calculation for robustness.">
+      <option name="closed" value="true" />
+      <created>1751000329212</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1751000329212</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Refactor `pressure_sensor.py` for improved timeout handling and clarity&#10;&#10;- Replaced `max_wait_time` with a fixed `timeout` variable for consistency.&#10;- Adjusted actual wait time logging for improved accuracy.&#10;- Ensured type conversion in altitude calculation for robustness.">
+      <option name="closed" value="true" />
+      <created>1751001140852</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1751001140852</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Reduce default wait time in `pressure_sensor.py` from 50ms to 30ms for improved responsiveness.">
+      <option name="closed" value="true" />
+      <created>1751001246832</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1751001246832</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Commits">
+      <option name="closed" value="true" />
+      <created>1751008881172</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1751008881172</updated>
+    </task>
+    <task id="LOCAL-00019" summary="audio_player.py">
+      <option name="closed" value="true" />
+      <created>1751012386196</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1751012386196</updated>
+    </task>
+    <task id="LOCAL-00020" summary="audio_player.py">
+      <option name="closed" value="true" />
+      <created>1751018334269</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1751018334269</updated>
+    </task>
+    <task id="LOCAL-00021" summary="bug fix">
+      <option name="closed" value="true" />
+      <created>1751020484284</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1751020484284</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Create new app for only pressure sensor.">
+      <option name="closed" value="true" />
+      <created>1751086800065</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1751086800065</updated>
+    </task>
+    <task id="LOCAL-00023" summary="bmp280, pressure_sensor module edited.">
+      <option name="closed" value="true" />
+      <created>1751092338225</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1751092338225</updated>
+    </task>
+    <task id="LOCAL-00024" summary="app_only_pressure.py edited.">
+      <option name="closed" value="true" />
+      <created>1751092764032</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1751092764032</updated>
+    </task>
+    <task id="LOCAL-00025" summary="insert audio_player module and run method edited">
+      <option name="closed" value="true" />
+      <created>1751097128454</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1751097128454</updated>
+    </task>
+    <task id="LOCAL-00026" summary="do not call calibrate_sea_level_pressure module">
+      <option name="closed" value="true" />
+      <created>1751099120394</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1751099120394</updated>
+    </task>
+    <task id="LOCAL-00027" summary="compensate calculation method edited">
+      <option name="closed" value="true" />
+      <created>1751100107305</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1751100107305</updated>
+    </task>
+    <task id="LOCAL-00028" summary="compensate calculation method edited">
+      <option name="closed" value="true" />
+      <created>1751102010960</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1751102010960</updated>
+    </task>
+    <task id="LOCAL-00029" summary="compensate calculation method edited">
+      <option name="closed" value="true" />
+      <created>1751102302619</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1751102302619</updated>
+    </task>
+    <task id="LOCAL-00030" summary="compensate calculation method edited">
+      <option name="closed" value="true" />
+      <created>1751103293919</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1751103293919</updated>
+    </task>
+    <task id="LOCAL-00031" summary="status checking logic added">
+      <option name="closed" value="true" />
+      <created>1751104371418</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1751104371418</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Create BMP388.">
+      <option name="closed" value="true" />
+      <created>1751108150653</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1751108150653</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Test Environment Setting2.">
+      <option name="closed" value="true" />
+      <created>1751169108618</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1751169108618</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Test Environment Setting2.">
+      <option name="closed" value="true" />
+      <created>1751169346574</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1751169346574</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Test Environment Setting2.">
+      <option name="closed" value="true" />
+      <created>1751172037398</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1751172037398</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Error correcting">
+      <option name="closed" value="true" />
+      <created>1751173264457</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1751173264457</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Error correcting">
+      <option name="closed" value="true" />
+      <created>1751173689850</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1751173689850</updated>
+    </task>
+    <task id="LOCAL-00038" summary="time stamp added">
+      <option name="closed" value="true" />
+      <created>1751174311167</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1751174311167</updated>
+    </task>
+    <task id="LOCAL-00039" summary="time stanby (ODR) edited">
+      <option name="closed" value="true" />
+      <created>1751419391411</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1751419391411</updated>
+    </task>
+    <task id="LOCAL-00040" summary="checking run-time edited.">
+      <option name="closed" value="true" />
+      <created>1751420557273</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1751420557273</updated>
+    </task>
+    <task id="LOCAL-00041" summary="checking run-time edited.">
+      <option name="closed" value="true" />
+      <created>1751420809410</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1751420809410</updated>
+    </task>
+    <task id="LOCAL-00042" summary="logging edited.">
+      <option name="closed" value="true" />
+      <created>1751430191493</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1751430191493</updated>
+    </task>
+    <task id="LOCAL-00043" summary="interval time setting for check_altitude_change.">
+      <option name="closed" value="true" />
+      <created>1751450996149</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1751450996149</updated>
+    </task>
+    <task id="LOCAL-00044" summary="log_buffer property correction.">
+      <option name="closed" value="true" />
+      <created>1751451706028</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1751451706028</updated>
+    </task>
+<<<<<<< HEAD
+    <task id="LOCAL-00045" summary="log_data method error correction.">
+      <option name="closed" value="true" />
+      <created>1751452721457</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1751452721457</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
+=======
+    <option name="localTasksCounter" value="45" />
+>>>>>>> 846f2f0095d353e6cc6e4c11781e9bdfff24ee1c
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/newDevelopment" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+<<<<<<< HEAD
+=======
+    <MESSAGE value="Fix shifting and bitwise operation order in BMP-280 methods for consistency and correctness." />
+>>>>>>> 846f2f0095d353e6cc6e4c11781e9bdfff24ee1c
+    <MESSAGE value="Adjust BMP-280 logic and add reset delay for improved stability  &#10;&#10;- Increased wait time during device readiness check.&#10;- Added delay after reset initialization.&#10;- Corrected bitwise operation handling for accuracy and consistency." />
+    <MESSAGE value="Refactor `app.py` for improved LED and I2C resource handling&#10;&#10;- Introduced global `led` initialization to prevent runtime errors.&#10;- Enhanced cleanup flow with proper error handling for LED and I2C deactivation.&#10;- Added explicit program termination using `sys.exit(0)`." />
+    <MESSAGE value="Refactor `app.py` for improved error handling and cleanup&#10;&#10;- Enhanced cleanup process with proper logging and deactivation of hardware resources.&#10;- Improved structure and readability for utility functions.&#10;- Added safeguards for graceful program termination and sensor initialization retries." />
+    <MESSAGE value="Refactor `pressure_sensor.py` for improved timeout handling and clarity&#10;&#10;- Replaced `max_wait_time` with a fixed `timeout` variable for consistency.&#10;- Adjusted actual wait time logging for improved accuracy.&#10;- Ensured type conversion in altitude calculation for robustness." />
+    <MESSAGE value="Reduce default wait time in `pressure_sensor.py` from 50ms to 30ms for improved responsiveness." />
+    <MESSAGE value="Commits" />
+    <MESSAGE value="audio_player.py" />
+    <MESSAGE value="bug fix" />
+    <MESSAGE value="Create new app for only pressure sensor." />
+    <MESSAGE value="bmp280, pressure_sensor module edited." />
+    <MESSAGE value="app_only_pressure.py edited." />
+    <MESSAGE value="insert audio_player module and run method edited" />
+    <MESSAGE value="do not call calibrate_sea_level_pressure module" />
+    <MESSAGE value="compensate calculation method edited" />
+    <MESSAGE value="status checking logic added" />
+    <MESSAGE value="Create BMP388." />
+    <MESSAGE value="Test Environment Setting2." />
+    <MESSAGE value="Error correcting" />
+    <MESSAGE value="time stamp added" />
+    <MESSAGE value="time stanby (ODR) edited" />
+    <MESSAGE value="checking run-time edited." />
+    <MESSAGE value="logging edited." />
+    <MESSAGE value="interval time setting for check_altitude_change." />
+    <MESSAGE value="log_buffer property correction." />
+<<<<<<< HEAD
+    <MESSAGE value="log_data method error correction." />
+    <option name="LAST_COMMIT_MESSAGE" value="log_data method error correction." />
+=======
+    <option name="LAST_COMMIT_MESSAGE" value="log_buffer property correction." />
+>>>>>>> 846f2f0095d353e6cc6e4c11781e9bdfff24ee1c
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
